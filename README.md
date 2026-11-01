@@ -1,5 +1,9 @@
 # ArborPulse
 
+[Open workspace](https://arborpulse-dima.finraell.chatgpt.site) · [GitHub repository](https://github.com/Finraell/ArborPulse)
+
+Both are currently private. The workspace requires the owner’s ChatGPT sign-in.
+
 **Every tree has a rhythm. Turn a short video into measurable motion and an inspection evidence brief.**
 
 Built during the **Meta Global AI Developer Hackathon 2026**, indie developer track, **Push the Frontier** theme.
@@ -13,6 +17,8 @@ ArborPulse tracks a selected tree region against a stationary reference, measure
 Requires Node.js **22.13+** and pnpm **11.25.0**.
 
 ```bash
+git clone https://github.com/Finraell/ArborPulse.git
+cd ArborPulse
 corepack enable
 corepack prepare pnpm@11.25.0 --activate
 pnpm install --frozen-lockfile
