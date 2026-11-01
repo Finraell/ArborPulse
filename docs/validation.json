@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-31",
+  "engine": "OpenCV Lucas-Kanade",
+  "fixtures": [
+    {
+      "fixture": "oak",
+      "synthetic": true,
+      "imposed_frequency_hz": 0.35,
+      "frequency": 0.3333333333333333,
+      "duration": 17.916666666666668,
+      "coverage": 1.0,
+      "amplitude": 15.21072476695376,
+      "cameraRms": 0.6438841386901153,
+      "usable": true
+    },
+    {
+      "fixture": "pine",
+      "synthetic": true,
+      "imposed_frequency_hz": 0.75,
+      "frequency": 0.7222222222222222,
+      "duration": 17.916666666666668,
+      "coverage": 1.0,
+      "amplitude": 9.654715354217263,
+      "cameraRms": 0.6444360024045049,
+      "usable": true
+    },
+    {
+      "fixture": "shake",
+      "synthetic": true,
+      "imposed_frequency_hz": 0.35,
+      "frequency": null,
+      "duration": 17.916666666666668,
+      "coverage": 1.0,
+      "amplitude": 15.198499259475863,
+      "cameraRms": 8.618526511135018,
+      "usable": false
+    }
+  ],
+  "typescript_tests": 12,
+  "python_tests": 7,
+  "live_meta_verified": false,
+  "limitations": "Synthetic fixtures only; not field or structural-risk validation."
+}

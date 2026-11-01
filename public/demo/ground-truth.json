@@ -1,0 +1,25 @@
+{
+  "synthetic": true,
+  "fps": 12,
+  "duration_seconds": 18,
+  "resolution": [
+    640,
+    400
+  ],
+  "oak": {
+    "imposed_frequency_hz": 0.35,
+    "crown_amplitude_px": 9
+  },
+  "pine": {
+    "imposed_frequency_hz": 0.75,
+    "crown_amplitude_px": 6
+  },
+  "shake": {
+    "imposed_frequency_hz": 0.35,
+    "camera_amplitude_px": [
+      13,
+      8
+    ]
+  },
+  "note": "Procedural fixtures, not real tree data. Displacement metrics are at analysis resolution; frequency is an imposed response, not validated natural frequency."
+}

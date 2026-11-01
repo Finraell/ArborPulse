@@ -1,0 +1,2461 @@
+{
+  "application": "ArborPulse",
+  "version": "0.1.0",
+  "context": {
+    "id": "pine",
+    "name": "Meadow pine",
+    "species": "Conifer · synthetic recording",
+    "location": "Demo plot B / open meadow",
+    "notes": "Demo field note: open area; no nearby occupied target reported. The wind response is simulated at a higher frequency.",
+    "target": "none",
+    "concern": false,
+    "synthetic": true,
+    "source": "/demo/pine.mp4",
+    "poster": "/demo/pine.jpg",
+    "treeBox": {
+      "x": 0.36,
+      "y": 0.2,
+      "width": 0.28,
+      "height": 0.3
+    },
+    "referenceBox": {
+      "x": 0.78,
+      "y": 0.46,
+      "width": 0.16,
+      "height": 0.28
+    }
+  },
+  "analysis": {
+    "schemaVersion": "1.0",
+    "engine": "PhysicsLens / sparse patch tracking v1",
+    "duration": 17.916666666666668,
+    "sampleRate": 12,
+    "width": 512,
+    "height": 320,
+    "samples": [
+      {
+        "t": 0,
+        "treeX": 0,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 0,
+        "y": 0,
+        "quality": 1
+      },
+      {
+        "t": 0.08333333333333333,
+        "treeX": 2,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.9444444444444444
+      },
+      {
+        "t": 0.16666666666666666,
+        "treeX": 2,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.9444444444444444
+      },
+      {
+        "t": 0.25,
+        "treeX": 5,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 5,
+        "y": 0,
+        "quality": 0.9444444444444444
+      },
+      {
+        "t": 0.3333333333333333,
+        "treeX": 5,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 5,
+        "y": 0,
+        "quality": 0.9444444444444444
+      },
+      {
+        "t": 0.4166666666666667,
+        "treeX": 5,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 5,
+        "y": 0,
+        "quality": 0.9444444444444444
+      },
+      {
+        "t": 0.5,
+        "treeX": 4,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 3,
+        "y": 0,
+        "quality": 0.9444444444444444
+      },
+      {
+        "t": 0.5833333333333334,
+        "treeX": 2,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 1,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 0.6666666666666666,
+        "treeX": 2,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 1,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 0.75,
+        "treeX": -1,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 0.8333333333333334,
+        "treeX": -3,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -4,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 0.9166666666666666,
+        "treeX": -3,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -4,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 1,
+        "treeX": -5,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -6,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 1.0833333333333333,
+        "treeX": -5,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -6,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 1.1666666666666667,
+        "treeX": -5,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -6,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 1.25,
+        "treeX": -2,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 1.3333333333333333,
+        "treeX": 0,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -1,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 1.4166666666666667,
+        "treeX": 0,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -1,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 1.5,
+        "treeX": 3,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 1.5833333333333333,
+        "treeX": 5,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 4,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 1.6666666666666667,
+        "treeX": 5,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 4,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 1.75,
+        "treeX": 5,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 4,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 1.8333333333333333,
+        "treeX": 3,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 1.9166666666666667,
+        "treeX": 3,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 2,
+        "treeX": -1,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -1,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 2.0833333333333335,
+        "treeX": -3,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 2.1666666666666665,
+        "treeX": -3,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 2.25,
+        "treeX": -6,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -6,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 2.3333333333333335,
+        "treeX": -6,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -6,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 2.4166666666666665,
+        "treeX": -6,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -6,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 2.5,
+        "treeX": -4,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -4,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 2.5833333333333335,
+        "treeX": -2,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 2.6666666666666665,
+        "treeX": -2,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 2.75,
+        "treeX": 0,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 1,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 2.8333333333333335,
+        "treeX": 2,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 2.9166666666666665,
+        "treeX": 2,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 3,
+        "treeX": 4,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 3.0833333333333335,
+        "treeX": 4,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 3.1666666666666665,
+        "treeX": 4,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 3.25,
+        "treeX": 1,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 3.3333333333333335,
+        "treeX": -1,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 0,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 3.4166666666666665,
+        "treeX": -1,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 0,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 3.5,
+        "treeX": -4,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 3.5833333333333335,
+        "treeX": -6,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 3.6666666666666665,
+        "treeX": -6,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 3.75,
+        "treeX": -6,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 3.8333333333333335,
+        "treeX": -4,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 3.9166666666666665,
+        "treeX": -4,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 4,
+        "treeX": -1,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 0,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 4.083333333333333,
+        "treeX": -1,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 0,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 4.166666666666667,
+        "treeX": 1,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 4.25,
+        "treeX": 5,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 4.333333333333333,
+        "treeX": 5,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 4.416666666666667,
+        "treeX": 5,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 4.5,
+        "treeX": 3,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 4.583333333333333,
+        "treeX": 1,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 1,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 4.666666666666667,
+        "treeX": 1,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 1,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 4.75,
+        "treeX": -2,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 4.833333333333333,
+        "treeX": -4,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -4,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 4.916666666666667,
+        "treeX": -4,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -4,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 5,
+        "treeX": -5,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -6,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 5.083333333333333,
+        "treeX": -5,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -6,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 5.166666666666667,
+        "treeX": -5,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -6,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 5.25,
+        "treeX": -2,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 5.333333333333333,
+        "treeX": 0,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -1,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 5.416666666666667,
+        "treeX": 0,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -1,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 5.5,
+        "treeX": 3,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 5.583333333333333,
+        "treeX": 5,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 4,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 5.666666666666667,
+        "treeX": 5,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 4,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 5.75,
+        "treeX": 5,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 4,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 5.833333333333333,
+        "treeX": 3,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 5.916666666666667,
+        "treeX": 3,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 6,
+        "treeX": 0,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -1,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 6.083333333333333,
+        "treeX": -2,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 6.166666666666667,
+        "treeX": -2,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 6.25,
+        "treeX": -5,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -6,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 6.333333333333333,
+        "treeX": -5,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -6,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 6.416666666666667,
+        "treeX": -5,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -6,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 6.5,
+        "treeX": -4,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -4,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 6.583333333333333,
+        "treeX": -2,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 6.666666666666667,
+        "treeX": -2,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 6.75,
+        "treeX": 1,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 1,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 6.833333333333333,
+        "treeX": 3,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 6.916666666666667,
+        "treeX": 3,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 7,
+        "treeX": 5,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 7.083333333333333,
+        "treeX": 5,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 7.166666666666667,
+        "treeX": 5,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 7.25,
+        "treeX": 1,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 7.333333333333333,
+        "treeX": -1,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 0,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 7.416666666666667,
+        "treeX": -1,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 0,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 7.5,
+        "treeX": -4,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 7.583333333333333,
+        "treeX": -6,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 7.666666666666667,
+        "treeX": -6,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 7.75,
+        "treeX": -6,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 7.833333333333333,
+        "treeX": -4,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 7.916666666666667,
+        "treeX": -4,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 8,
+        "treeX": -1,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 0,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 8.083333333333334,
+        "treeX": 1,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 8.166666666666666,
+        "treeX": 1,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 8.25,
+        "treeX": 4,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 8.333333333333334,
+        "treeX": 4,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 8.416666666666666,
+        "treeX": 4,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 8.5,
+        "treeX": 2,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 8.583333333333334,
+        "treeX": 0,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 1,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 8.666666666666666,
+        "treeX": 0,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 1,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 8.75,
+        "treeX": -2,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 8.833333333333334,
+        "treeX": -4,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -4,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 8.916666666666666,
+        "treeX": -4,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -4,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 9,
+        "treeX": -6,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -6,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 9.083333333333334,
+        "treeX": -6,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -6,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 9.166666666666666,
+        "treeX": -6,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -6,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 9.25,
+        "treeX": -3,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 9.333333333333334,
+        "treeX": -1,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -1,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 9.416666666666666,
+        "treeX": -1,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -1,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 9.5,
+        "treeX": 3,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 9.583333333333334,
+        "treeX": 5,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 4,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 9.666666666666666,
+        "treeX": 5,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 4,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 9.75,
+        "treeX": 5,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 4,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 9.833333333333334,
+        "treeX": 3,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 9.916666666666666,
+        "treeX": 3,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 10,
+        "treeX": 0,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -1,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 10.083333333333334,
+        "treeX": -2,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 10.166666666666666,
+        "treeX": -2,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 10.25,
+        "treeX": -5,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -6,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 10.333333333333334,
+        "treeX": -5,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -6,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 10.416666666666666,
+        "treeX": -5,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -6,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 10.5,
+        "treeX": -3,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -4,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 10.583333333333334,
+        "treeX": -1,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 10.666666666666666,
+        "treeX": -1,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 10.75,
+        "treeX": 2,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 1,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 10.833333333333334,
+        "treeX": 4,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 10.916666666666666,
+        "treeX": 4,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 11,
+        "treeX": 5,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 11.083333333333334,
+        "treeX": 5,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 11.166666666666666,
+        "treeX": 5,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 11.25,
+        "treeX": 2,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 11.333333333333334,
+        "treeX": 0,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 0,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 11.416666666666666,
+        "treeX": 0,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 0,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 11.5,
+        "treeX": -3,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 11.583333333333334,
+        "treeX": -5,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 11.666666666666666,
+        "treeX": -5,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 11.75,
+        "treeX": -6,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 11.833333333333334,
+        "treeX": -4,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 11.916666666666666,
+        "treeX": -4,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 12,
+        "treeX": -1,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 0,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 12.083333333333334,
+        "treeX": 1,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 12.166666666666666,
+        "treeX": 1,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 12.25,
+        "treeX": 4,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 12.333333333333334,
+        "treeX": 4,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 12.416666666666666,
+        "treeX": 4,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 12.5,
+        "treeX": 2,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 12.583333333333334,
+        "treeX": 0,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 1,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 12.666666666666666,
+        "treeX": 0,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 1,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 12.75,
+        "treeX": -3,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 12.833333333333334,
+        "treeX": -5,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -4,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 12.916666666666666,
+        "treeX": -5,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -4,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 13,
+        "treeX": -7,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -6,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 13.083333333333334,
+        "treeX": -7,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -6,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 13.166666666666666,
+        "treeX": -7,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -6,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 13.25,
+        "treeX": -4,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 13.333333333333334,
+        "treeX": -2,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 13.416666666666666,
+        "treeX": -2,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 13.5,
+        "treeX": 1,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 1,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 13.583333333333334,
+        "treeX": 3,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 13.666666666666666,
+        "treeX": 3,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 13.75,
+        "treeX": 3,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 13.833333333333334,
+        "treeX": 1,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 1,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 13.916666666666666,
+        "treeX": 1,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 1,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 14,
+        "treeX": -2,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 14.083333333333334,
+        "treeX": -3,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -4,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 14.166666666666666,
+        "treeX": -3,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -4,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 14.25,
+        "treeX": -6,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -7,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 14.333333333333334,
+        "treeX": -6,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -7,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 14.416666666666666,
+        "treeX": -6,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -7,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 14.5,
+        "treeX": -4,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -5,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 14.583333333333334,
+        "treeX": -2,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 14.666666666666666,
+        "treeX": -2,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -3,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 14.75,
+        "treeX": 1,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 0,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 14.833333333333334,
+        "treeX": 3,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 14.916666666666666,
+        "treeX": 3,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 15,
+        "treeX": 5,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 4,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 15.083333333333334,
+        "treeX": 5,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 4,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 15.166666666666666,
+        "treeX": 5,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 4,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 15.25,
+        "treeX": 2,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": 1,
+        "y": 0,
+        "quality": 0.8888888888888888
+      },
+      {
+        "t": 15.333333333333334,
+        "treeX": 0,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -1,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 15.416666666666666,
+        "treeX": 0,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -1,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 15.5,
+        "treeX": -3,
+        "treeY": 0,
+        "cameraX": 1,
+        "cameraY": 0,
+        "x": -4,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 15.583333333333334,
+        "treeX": -5,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -5,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 15.666666666666666,
+        "treeX": -5,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -5,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 15.75,
+        "treeX": -5,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -5,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 15.833333333333334,
+        "treeX": -3,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -3,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 15.916666666666666,
+        "treeX": -3,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": -3,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 16,
+        "treeX": 0,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 0,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 16.083333333333332,
+        "treeX": 2,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 16.166666666666668,
+        "treeX": 2,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 16.25,
+        "treeX": 5,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 5,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 16.333333333333332,
+        "treeX": 4,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 5,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 16.416666666666668,
+        "treeX": 4,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 5,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 16.5,
+        "treeX": 2,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 3,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 16.583333333333332,
+        "treeX": 0,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 1,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 16.666666666666668,
+        "treeX": 0,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 1,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 16.75,
+        "treeX": -3,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -2,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 16.833333333333332,
+        "treeX": -5,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -4,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 16.916666666666668,
+        "treeX": -5,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -4,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 17,
+        "treeX": -7,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -6,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 17.083333333333332,
+        "treeX": -7,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -6,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 17.166666666666668,
+        "treeX": -7,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -6,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 17.25,
+        "treeX": -4,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -3,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 17.333333333333332,
+        "treeX": -2,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -1,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 17.416666666666668,
+        "treeX": -2,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": -1,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 17.5,
+        "treeX": 1,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 17.583333333333332,
+        "treeX": 3,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 4,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 17.666666666666668,
+        "treeX": 3,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 4,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 17.75,
+        "treeX": 3,
+        "treeY": 0,
+        "cameraX": -1,
+        "cameraY": 0,
+        "x": 4,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 17.833333333333332,
+        "treeX": 2,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.8333333333333334
+      },
+      {
+        "t": 17.916666666666668,
+        "treeX": 2,
+        "treeY": 0,
+        "cameraX": 0,
+        "cameraY": 0,
+        "x": 2,
+        "y": 0,
+        "quality": 0.8333333333333334
+      }
+    ],
+    "spectrum": [
+      {
+        "hz": 0.05555555555555555,
+        "power": 0.0005145039853297294
+      },
+      {
+        "hz": 0.1111111111111111,
+        "power": 0.0022427309838081695
+      },
+      {
+        "hz": 0.16666666666666666,
+        "power": 0.0014646202071643135
+      },
+      {
+        "hz": 0.2222222222222222,
+        "power": 0.029881481700819456
+      },
+      {
+        "hz": 0.2777777777777778,
+        "power": 0.019932617764926126
+      },
+      {
+        "hz": 0.3333333333333333,
+        "power": 0.0002584222696607664
+      },
+      {
+        "hz": 0.3888888888888889,
+        "power": 0.00011897191144489336
+      },
+      {
+        "hz": 0.4444444444444444,
+        "power": 0.00009836588731779271
+      },
+      {
+        "hz": 0.5,
+        "power": 0.00017567577807933694
+      },
+      {
+        "hz": 0.5555555555555556,
+        "power": 0.000010417898492184866
+      },
+      {
+        "hz": 0.6111111111111112,
+        "power": 0.0006802310702269571
+      },
+      {
+        "hz": 0.6666666666666666,
+        "power": 0.050787882356018284
+      },
+      {
+        "hz": 0.7222222222222222,
+        "power": 1.12716292904215
+      },
+      {
+        "hz": 0.7777777777777778,
+        "power": 1.1384314404445044
+      },
+      {
+        "hz": 0.8333333333333334,
+        "power": 0.05016095448050632
+      },
+      {
+        "hz": 0.8888888888888888,
+        "power": 0.0009269627116525744
+      },
+      {
+        "hz": 0.9444444444444444,
+        "power": 0.00011992532587189265
+      },
+      {
+        "hz": 1,
+        "power": 0.00003901054507772604
+      },
+      {
+        "hz": 1.0555555555555556,
+        "power": 0.00008767085322215029
+      },
+      {
+        "hz": 1.1111111111111112,
+        "power": 0.000004086602951273076
+      },
+      {
+        "hz": 1.1666666666666667,
+        "power": 0.0003262557266506261
+      },
+      {
+        "hz": 1.2222222222222223,
+        "power": 0.002176930162353822
+      },
+      {
+        "hz": 1.2777777777777777,
+        "power": 0.0016989238118851795
+      },
+      {
+        "hz": 1.3333333333333333,
+        "power": 0.00012782542617111918
+      },
+      {
+        "hz": 1.3888888888888888,
+        "power": 0.00003841357847780675
+      },
+      {
+        "hz": 1.4444444444444444,
+        "power": 4.4982768406428205e-8
+      },
+      {
+        "hz": 1.5,
+        "power": 0.00006302094765558664
+      },
+      {
+        "hz": 1.5555555555555556,
+        "power": 0.000003337726049777204
+      },
+      {
+        "hz": 1.6111111111111112,
+        "power": 0.000048938507197505015
+      },
+      {
+        "hz": 1.6666666666666667,
+        "power": 0.000024663544710861375
+      },
+      {
+        "hz": 1.7222222222222223,
+        "power": 0.0008969862971183625
+      },
+      {
+        "hz": 1.7777777777777777,
+        "power": 0.0010765248675284004
+      },
+      {
+        "hz": 1.8333333333333333,
+        "power": 0.000058048521170682474
+      },
+      {
+        "hz": 1.8888888888888888,
+        "power": 0.000007747887161641818
+      },
+      {
+        "hz": 1.9444444444444444,
+        "power": 0.000042411014852993094
+      },
+      {
+        "hz": 2,
+        "power": 0.000010831916879027387
+      },
+      {
+        "hz": 2.0555555555555554,
+        "power": 0.00003761855797582622
+      },
+      {
+        "hz": 2.111111111111111,
+        "power": 0.0000386851293155031
+      },
+      {
+        "hz": 2.1666666666666665,
+        "power": 0.00011121901310518547
+      },
+      {
+        "hz": 2.2222222222222223,
+        "power": 0.004227795589300688
+      },
+      {
+        "hz": 2.2777777777777777,
+        "power": 0.003940536570880596
+      },
+      {
+        "hz": 2.3333333333333335,
+        "power": 0.0001033950158154037
+      },
+      {
+        "hz": 2.388888888888889,
+        "power": 0.000032993057470456055
+      },
+      {
+        "hz": 2.4444444444444446,
+        "power": 0.00002650170103407875
+      },
+      {
+        "hz": 2.5,
+        "power": 0.0000173229045819208
+      },
+      {
+        "hz": 2.5555555555555554,
+        "power": 0.000029755214642082383
+      },
+      {
+        "hz": 2.611111111111111,
+        "power": 0.000008395222989902519
+      },
+      {
+        "hz": 2.6666666666666665,
+        "power": 7.28273434948117e-7
+      },
+      {
+        "hz": 2.7222222222222223,
+        "power": 0.0006367204932369277
+      },
+      {
+        "hz": 2.7777777777777777,
+        "power": 0.0009766104099221632
+      },
+      {
+        "hz": 2.8333333333333335,
+        "power": 0.00006388804694832211
+      },
+      {
+        "hz": 2.888888888888889,
+        "power": 0.00004098377663345442
+      },
+      {
+        "hz": 2.9444444444444446,
+        "power": 0.000008158857215070071
+      },
+      {
+        "hz": 3,
+        "power": 0.000029469840389370065
+      }
+    ],
+    "frequency": 0.7777777777777778,
+    "spectralConcentration": 0.9490681546208994,
+    "amplitude": 12.052756046154396,
+    "rms": 3.6630323867904075,
+    "cameraRms": 0.8058055684384968,
+    "coverage": 0.8827160493827153,
+    "usable": true,
+    "warnings": [],
+    "treeBox": {
+      "x": 0.36,
+      "y": 0.2,
+      "width": 0.28,
+      "height": 0.3
+    },
+    "referenceBox": {
+      "x": 0.78,
+      "y": 0.46,
+      "width": 0.16,
+      "height": 0.28
+    }
+  },
+  "brief": {
+    "priority": "Standard review",
+    "summary": "The recording supports a motion evidence brief. Add it to routine arborist review with the field context below.",
+    "evidence": [
+      "216 frames sampled over 17.9 seconds; 88% mean tracking retention.",
+      "Camera-corrected projected displacement: 12.1 px peak to peak at 512 × 320 analysis resolution.",
+      "Dominant observed response: 0.78 Hz (frequency resolution ≈ 0.06 Hz). This is not necessarily the tree’s natural frequency.",
+      "Stationary-reference motion: 0.81 px RMS before correction.",
+      "Field context: no target reported; visible concern not reported."
+    ],
+    "nextSteps": [
+      "Have a qualified arborist review the recording, field notes, target occupancy, and visible defects.",
+      "Inspect the root collar, trunk, and branch attachments on site; record observations separately.",
+      "Repeat from the same view under comparable wind conditions to build a useful time series."
+    ],
+    "limitations": [
+      "Synthetic demonstration clip. It validates the software path, not real-world tree assessment.",
+      "Projected pixels are not physical displacement without scale and camera calibration.",
+      "One video cannot measure hidden decay, anchorage, probability of failure, or a safe wind threshold.",
+      "Motion magnitude and frequency alone do not rank structural safety. No failure probability or certified tree-risk rating is produced."
+    ]
+  },
+  "aiBrief": null,
+  "aiProvider": null,
+  "createdAt": "2026-10-31T18:28:25.617Z"
+}

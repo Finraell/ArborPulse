@@ -1,0 +1,31 @@
+ARBORPULSE | INSPECTION EVIDENCE BRIEF
+Meadow pine
+Demo plot B / open meadow
+Source: synthetic demo
+Queue: Standard review
+
+The recording supports a motion evidence brief. Add it to routine arborist review with the field context below.
+
+MEASURED EVIDENCE
+• 216 frames sampled over 17.9 seconds; 88% mean tracking retention.
+• Camera-corrected projected displacement: 12.1 px peak to peak at 512 × 320 analysis resolution.
+• Dominant observed response: 0.78 Hz (frequency resolution ≈ 0.06 Hz). This is not necessarily the tree’s natural frequency.
+• Stationary-reference motion: 0.81 px RMS before correction.
+• Field context: no target reported; visible concern not reported.
+
+RECORDER NOTES
+Demo field note: open area; no nearby occupied target reported. The wind response is simulated at a higher frequency.
+
+NEXT STEPS
+• Have a qualified arborist review the recording, field notes, target occupancy, and visible defects.
+• Inspect the root collar, trunk, and branch attachments on site; record observations separately.
+• Repeat from the same view under comparable wind conditions to build a useful time series.
+
+LIMITATIONS
+• Synthetic demonstration clip. It validates the software path, not real-world tree assessment.
+• Projected pixels are not physical displacement without scale and camera calibration.
+• One video cannot measure hidden decay, anchorage, probability of failure, or a safe wind threshold.
+• Motion magnitude and frequency alone do not rank structural safety. No failure probability or certified tree-risk rating is produced.
+
+Engine: PhysicsLens / sparse patch tracking v1
+Report created: 2026-10-31T18:29:43.547Z
