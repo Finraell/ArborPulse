@@ -50,11 +50,19 @@ def summarize(samples, width, height, tree_box, reference_box):
     concentration = float(np.sum(power[max(1, peak-1):peak+2])/total) if total > 0 else 0
     coverage = float(np.mean([s["quality"] for s in samples]))
     rms = float(np.sqrt(np.mean(axis*axis)))
-    cx = detrend([s["cameraX"] for s in samples]); cy = detrend([s["cameraY"] for s in samples])
+    cx = np.array([s["cameraX"] for s in samples], dtype=float); cx -= np.mean(cx)
+    cy = np.array([s["cameraY"] for s in samples], dtype=float); cy -= np.mean(cy)
     camera_rms = float(np.sqrt(np.mean(cx*cx+cy*cy)))
-    usable = duration >= 6 and coverage >= .65 and camera_rms <= 5
+    run = longest = 0
+    for sample in samples:
+        run = run + 1 if sample["quality"] < .3 else 0
+        longest = max(longest, run)
+    longest_dropout = longest / rate
+    usable = duration >= 6 and coverage >= .65 and camera_rms <= 5 and longest_dropout <= .5
     hz = float(frequencies[peak]) if usable and rms >= .35 and concentration >= .3 and frequencies[peak]*duration >= 3 else None
     warnings = []
+    if longest_dropout > .5:
+        warnings.append("Tracking has a sustained dropout. Recapture rather than interpreting a frozen trajectory.")
     if coverage < .65:
         warnings.append("Insufficient stable tracks. Recapture with a textured reference.")
     if camera_rms > 5:
@@ -65,7 +73,7 @@ def summarize(samples, width, height, tree_box, reference_box):
         warnings.append("Short capture: record 20–30 seconds.")
     if hz is None:
         warnings.append("A repeatable oscillation frequency was not resolved.")
-    return {"schemaVersion": "1.0", "engine": "PhysicsLens / OpenCV Lucas-Kanade v1", "duration": duration, "sampleRate": rate, "width": width, "height": height, "samples": samples, "spectrum": [{"hz": float(f), "power": float(p)} for f, p in zip(frequencies[1:], power[1:]) if f <= 3], "frequency": hz, "spectralConcentration": concentration, "amplitude": float(np.ptp(axis)), "rms": rms, "cameraRms": camera_rms, "coverage": coverage, "usable": usable, "warnings": warnings, "treeBox": dict(zip(("x", "y", "width", "height"), tree_box)), "referenceBox": dict(zip(("x", "y", "width", "height"), reference_box))}
+    return {"schemaVersion": "1.0", "engine": "PhysicsLens / OpenCV Lucas-Kanade v2", "frequencyResolution": 1/duration, "frequencyAxis": "horizontal" if np.mean(x*x) >= np.mean(y*y) else "vertical", "longestDropout": longest_dropout, "duration": duration, "sampleRate": rate, "width": width, "height": height, "samples": samples, "spectrum": [{"hz": float(f), "power": float(p)} for f, p in zip(frequencies[1:], power[1:]) if f <= 3], "frequency": hz, "spectralConcentration": concentration, "amplitude": float(np.ptp(axis)), "rms": rms, "cameraRms": camera_rms, "coverage": coverage, "usable": usable, "warnings": warnings, "treeBox": dict(zip(("x", "y", "width", "height"), tree_box)), "referenceBox": dict(zip(("x", "y", "width", "height"), reference_box))}
 
 
 def corners(gray, box):
@@ -89,7 +97,7 @@ def track(previous, current, points, origins):
     return next_points[good], origins[good]
 
 
-def analyze_video(path: Path, tree_box, reference_box, seconds=30):
+def analyze_video(path: Path, tree_box, reference_box, seconds=60):
     tree_box, reference_box = validate_box(tree_box), validate_box(reference_box)
     if overlap(tree_box, reference_box):
         raise ValueError("Tree and reference regions must not overlap")
@@ -109,7 +117,7 @@ def analyze_video(path: Path, tree_box, reference_box, seconds=30):
             if frame_index % step:
                 continue
             source_h, source_w = frame.shape[:2]
-            width = min(512, source_w); height = round(source_h*width/source_w)
+            width = min(640, source_w); height = round(source_h*width/source_w)
             if min(width, height) < 120 or source_w*source_h > 3840*2160:
                 raise ValueError("Use a video between 320 × 240 and 4K resolution")
             gray = cv2.cvtColor(cv2.resize(frame, (width, height)), cv2.COLOR_BGR2GRAY)

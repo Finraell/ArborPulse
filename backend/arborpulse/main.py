@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from starlette.concurrency import run_in_threadpool
 from .motion import analyze_video
 
-app = FastAPI(title="ArborPulse PhysicsLens", version="0.1.0")
+app = FastAPI(title="ArborPulse PhysicsLens", version="0.2.0")
 app.add_middleware(CORSMiddleware, allow_origins=os.getenv("CORS_ORIGINS", "http://localhost:5173,http://localhost:8787").split(","), allow_methods=["GET", "POST"], allow_headers=["Content-Type", "Authorization"])
 analysis_slot = asyncio.Semaphore(1)
 MAX_UPLOAD = 100*1024*1024
@@ -26,7 +26,7 @@ async def authorize(authorization: str | None = Header(default=None)):
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "engine": "OpenCV Lucas-Kanade", "version": "0.1.0"}
+    return {"status": "ok", "engine": "OpenCV Lucas-Kanade", "version": "0.2.0"}
 
 
 @app.post("/v1/analyze", dependencies=[Depends(authorize)])

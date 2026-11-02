@@ -1,39 +1,97 @@
-# PhysicsLens methodology
+# Measurement and model methodology — v0.2
 
-## Measured quantity
+ArborPulse is an experimental inspection-evidence workflow. It measures image
+motion and prepares questions for an arborist. It does not infer hidden decay,
+anchorage, failure probability, safe wind speed, or certified risk.
 
-A projected image-space motion time series relative to a selected stationary reference. Values refer to the resized analysis image, not original pixels or physical distance.
+## Local video measurement
 
-## Browser pipeline
+The browser decodes at 12 samples/second, up to 60 seconds, scaled to at most
+640 px width. A user supplies two separate normalized boxes, manually or by
+confirming a Muse Spark proposal: a textured rigid tree feature and a stationary
+world reference. A wall or fixed post may work; another crown, timestamp, logo,
+or watermark does not establish a stationary reference.
 
-1. Decode a local or same-origin video. Sample at 12 Hz, cap processing at 30 seconds, and resize to at most 512 pixels wide while preserving aspect ratio.
-2. Within the selected regions, compute a small-window image-gradient covariance score. Keep spatially separated textured corners (up to 18 tree features and 12 reference features).
-3. Match each 7 × 7 patch in a ±6 pixel search neighborhood using normalized cross-correlation. Require score ≥0.8 and a forward/backward positional error ≤1.5 pixels. Rejected points remain rejected; the tracker does not invent or silently refresh evidence.
-4. At each sample, calculate the median accumulated displacement of surviving features in each region. Subtract reference translation from tree translation. Record quality as the minimum of the two retained feature fractions; fewer than three features in either region gives zero quality. When a group is lost, its last translation is held and quality is zero, which must be considered when interpreting the trace.
-5. Fit and remove a straight-line trend from x and y displacement. Select the higher-variance axis for the summary spectrum, RMS, and peak-to-peak displacement. The time chart displays the un-detrended, camera-corrected horizontal x series; the spectrum may use y when its variance is higher.
-6. Apply a Hann window and calculate DFT bins. Search for an observed response peak between 0.1 and 2 Hz. Frequency resolution is approximately 1 / observed duration.
-7. A capture is usable when duration ≥6 seconds, mean track retention ≥65%, and reference-motion RMS ≤5 analysis pixels. A frequency is shown only with RMS ≥0.35 pixels, peak-neighborhood concentration ≥0.30, and at least three observed cycles.
+Textured corners use a minimum-eigenvalue gradient score and spatial separation.
+The browser tracks 7 × 7 patches in a ±6 px search window using normalized
+correlation ≥0.8, rejecting forward/backward disagreement >1.5 px. Median tree
+translation minus median reference translation gives a projected trajectory.
+Tracks are not silently replenished; mean retention and sustained dropout remain
+visible. Held trajectories after feature loss must fail the quality gate.
 
-Thresholds are prototype engineering choices, not clinically or scientifically calibrated tree-risk thresholds. A capture can be usable while no stable response frequency is resolved.
+Linear detrending removes drift from the corrected response, a Hann window reduces
+spectral leakage, and a DFT finds the strongest response in 0.1–2 Hz on the axis
+with greater detrended energy. Reported amplitude is detrended peak-to-peak motion
+in analysis pixels. Frequency-bin spacing is approximately 1/duration. No
+sub-bin accuracy, natural-frequency identification, or metric displacement is claimed.
 
-## Optional OpenCV pipeline
+A frequency is suppressed unless capture length ≥6 s, mean feature retention
+≥65%, no dropout longer than 0.5 s, reference-motion RMS ≤5 px, response RMS
+≥0.35 px, spectral concentration ≥0.3, and at least three observed cycles.
+Reference RMS is centered, **not linearly detrended**, so a steady camera pan cannot
+be hidden. Known source limitations (the Trout Lake moving-camera example)
+override numerical retention and force recapture. These conservative heuristics
+are not learned or scientifically calibrated structural thresholds.
 
-The FastAPI service uses Shi–Tomasi corners and pyramidal Lucas–Kanade optical flow with forward/backward rejection. It follows the same reference-subtraction and summary principles; its numerical results can differ from the browser patch tracker. It is a separate service, not a hidden hosted upload path.
+The optional Python engine uses pyramidal OpenCV Lucas–Kanade with separate
+corner selection, subpixel trajectories and forward/backward rejection. It shares
+the signal and capture-gate principles, 640 px width and 60 s cap; it is not the
+same tracker as the browser. Results are labelled by engine. The frontend does
+not send videos to this service.
 
-## Inspection queue
+## Two model stages
 
-- Failed capture-quality gate → **Recapture**.
-- Usable capture + recorder-reported visible concern + an occupied target → **Review first**.
-- Other usable captures → **Standard review**.
+Muse Spark 1.3 is called through server-side Meta Model API chat completions.
+The local server alone holds `MODEL_API_KEY`.
 
-This is a workflow heuristic, not a risk assessment. Movement amplitude and frequency do not raise or lower the structural safety classification. No safe/unsafe classification or failure probability exists.
+1. Scene planning receives six JPEG frames labelled F00–F05 with source times,
+   plus recorder notes. It proposes two normalized 0–1000 boxes, explains the
+   choice, and cites source frames in capture checks. The adapter enforces
+   bounds/non-overlap and rejects unknown IDs. The user must confirm boxes.
+2. Grounded interpretation receives the same sampled frame IDs, compact
+   deterministic measurements M_frequency/M_sway/M_tracking/M_camera/M_capture/
+   M_duration and field evidence F_notes/F_target/F_concern. Every finding must
+   identify its source type and cite valid IDs of that type. References are
+   validated after strict JSON-schema parsing. Raw sample series are not sent.
 
-## Meta model role
+Notes/images are explicitly treated as untrusted data in the prompt. Reference
+validation prevents nonexistent citations; it cannot prove that the model's
+interpretation is visually or scientifically correct. Human review remains needed.
+Six stills cannot establish everything visible in a complete video.
 
-Muse Spark receives compact measured evidence, entered field context, and up to three sampled JPEG frames after explicit consent. A structured prompt separates measured evidence from reported concerns and visible observations. Strict JSON output contains summary, observations, on-site questions, and capture advice; Zod validates it. The model cannot change the deterministic queue result. AI output is labelled assisted and requires review; generation errors leave deterministic evidence intact.
+Only a successful, validated response receives model/request/time/prompt-version/
+usage provenance in the UI. A key-presence health check is not a successful model
+call. Mocked contracts are labelled tests, not model demonstrations. Cost estimates
+use published standard-mode rates and do not replace account billing.
 
-A prompt and output schema cannot guarantee factual correctness. The professional reviewer remains responsible for interpretation. Do not treat the model's prose as independent measurement.
+## Queue and reporting
 
-## Validation boundary
+Poor capture quality → Recapture. Otherwise a recorder-reported concern plus an
+occupied target → Review first; other records → Standard review. These are workflow
+queues. Neither response amplitude nor frequency decides tree risk or alters a
+priority through model interpretation.
 
-`public/demo/ground-truth.json` records imposed input motions for generated fixtures. Fixture tests validate decoding, tracking, stabilization, frequency recovery, and capture-quality rejection. They do not validate failure prediction, defects, species generalization, consumer-camera artifacts, field wind conditions, or utility-vegetation decisions. Next validation work requires a diverse, consented real-video dataset and review by qualified arborists.
+Reports retain measurements, units, context, warnings, media source/license,
+source frames, model findings, references and response provenance when available.
+HTML exports are standalone, escaped, script-free and forbid remote assets.
+CSV contains raw samples; full JSON also contains source-frame evidence. Saved
+browser briefs retain only text. User recordings are not persisted by the app.
+
+## Verification and limits
+
+- Synthetic oak/pine impose 0.35/0.75 Hz and test frequency recovery within one bin.
+- Camera-shake, pan and dropout cases test refusal behavior.
+- Real urban footage has no motion/tree-health truth; it tests capture limitations.
+- Trout Lake footage has a camera mounted on another tree and no established
+  world-fixed reference. Published optical estimates 0.23–0.24 Hz differ from
+  the matching-window 0.49 Hz accelerometer estimate. A 30-minute 0.24 Hz sensor
+  result is a different window. We do not fit a favorable ground-truth label.
+- TypeScript provider fixtures test protocol/validation, not real model quality.
+- Raw OpenCV evidence and the reproducible manifest are in docs/data and
+  public/validation/report.json. Browser outputs are stored separately.
+
+Translation subtraction does not correct camera rotation, rolling shutter,
+parallax, zoom or an independently moving reference. Wind forcing, foliage,
+viewpoint, calibration and tree geometry affect the response. Diverse field
+captures, professional review and independent measurements remain necessary to
+assess real-world usefulness. No failure model has been validated here.

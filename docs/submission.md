@@ -1,47 +1,55 @@
-# Submission draft — review before sending
+# Submission draft — ArborPulse
 
-**Project:** ArborPulse  
-**Tagline:** Read the rhythm of a tree.  
-**Track:** Indie developer  
-**Theme:** Push the Frontier
+**Title:** ArborPulse — Read the rhythm of a tree
 
-## Short description
+**One-line pitch:** Turn a phone video into traceable motion evidence and a
+Meta-assisted inspection brief for professional tree review.
 
-ArborPulse turns a short tree video into inspectable motion evidence and an arborist-oriented field brief. A local PhysicsLens engine tracks tree features against a stationary background, measures projected displacement and observed response frequency, and exposes the raw signal. Muse Spark combines selected frames, measurements, and field context into grounded observations and on-site questions.
+**Track/theme intention:** Indie developer / Push the Frontier. Confirm the
+organizer's current eligibility, submission fields and deadline before submitting.
 
-## Problem
+## What it does
 
-A phone video can record how a tree moves, but reviewing many clips without consistent evidence is cumbersome. Arborists need context, a transparent record, and clear limitations—not an unsupported tree-failure prediction.
+ArborPulse helps turn a tree video into an evidence handoff. Muse Spark first
+proposes textured tree and stationary-reference regions with capture checks.
+The operator confirms them. Local computer vision measures projected motion and
+a gated response spectrum. Muse Spark then interprets timestamped stills,
+measurements and recorder notes; findings cite frame, metric or note IDs. An
+illustrated report preserves source frames, warnings and response provenance.
 
-## What we built
+## Why Meta is central
 
-A responsive recording workspace with browser-local video analysis, manually selected regions, stationary-reference correction, time and frequency views, quality gates, field notes, a context-based review queue, text/PDF/CSV/JSON exports, and optional Muse Spark-assisted notes. An independent FastAPI/OpenCV engine supports reproducible backend experiments. Three explicitly synthetic recordings have known input motions for verification.
+The model connects semantic scene understanding to a deterministic measurement
+pipeline, then produces evidence-linked questions for a human professional. Its
+two outputs change the actual workflow. Strict schemas, box checks, source-type
+checks and response receipts make the assistance inspectable. It does not turn a
+language-model observation into a certified structural diagnosis.
 
-## Meta integration
+## Built with
 
-Muse Spark 1.3 through Meta Model API, using multimodal chat completions and strict JSON-schema output. The model receives three frames plus compact measured evidence and recorder notes after consent. It drafts observations, questions, and capture advice; it does not manufacture motion measurements or change the deterministic queue priority.
+Muse Spark 1.3 / Meta Model API; React/TypeScript; local browser feature tracking
+and signal processing; an optional FastAPI/OpenCV comparison engine; Vite/Vinext
+and Cloudflare Worker hosting. No SAM, voice, failure predictor or hidden-decay
+model is claimed. Full video stays local in the normal UI.
 
-**Activation status:** implementation complete; a real API key and successful live model run are still required. Replace this note with verified results before submitting. Do not describe mocked tests as a live integration.
+## Verification and disclosure
 
-## Novelty / technical ambition
+Known-frequency synthetic videos test measurement recovery; shake, camera pan,
+and dropout cases test refusal. Two licensed real recordings expose reference
+limitations. Published research optical and sensor results are kept distinct.
+Provider contract tests use fixtures. A live Meta response has not been verified
+on the development host because no user key was supplied. Complete the keyed
+local run and record the genuine receipts before claiming live-model validation.
 
-A transparent combination of image-space physical measurement and model-assisted interpretation. All reported motion has an inspectable time series and capture provenance. Poor measurements produce a recapture request. No claim of competitor-free novelty is made.
+## Links and final checklist
 
-## Current limits
+- Repository: https://github.com/Finraell/ArborPulse (currently private).
+- Workspace: https://arborpulse-dima.finraell.chatgpt.site (owner-private, unkeyed).
+- [x] Source, local setup, tests, method, attribution and report export prepared.
+- [x] Server-only key path; ignored credentials; CI secret check.
+- [ ] User configures eligible Meta key locally and verifies both actual AI stages.
+- [ ] Record the real two-minute demo described in demo-script.md.
+- [ ] Confirm official submission requirements and judge access.
+- [ ] Add arborist evaluation evidence when available; do not imply it already exists.
 
-The fixtures are synthetic. The prototype has no calibrated tree-failure model, natural-frequency identification, hidden-decay detection, SAM segmentation, or field validation. Rotation, parallax, moving reference foliage, and difficult codecs can impair analysis. Professional on-site assessment remains essential.
-
-## Submission checklist
-
-- [ ] Confirm participant acceptance and read the current official rules in the participant portal.
-- [ ] Configure a server-side Meta key; run the genuine three-frame AI flow successfully.
-- [ ] Capture at least one suitable real-tree recording and check it with an arborist if feasible.
-- [ ] Create and push the GitHub repository to the intended account; verify visibility required by the portal.
-- [ ] Confirm that the judging URL is accessible to judges; the default hosted preview is owner-private.
-- [ ] Record and upload the actual demo; `demo-script.md` is a script, not a finished video.
-- [ ] Add the exact repository, judging, and demo URLs to the portal.
-- [ ] Submit personally before the current deadline.
-
-The official event page checked October 31, 2026 lists **November 4, 2026, 9:00 PM Eastern** for submissions. Check the participant portal for any update and exact deliverable requirements. This project has not been submitted automatically.
-
-Official event: https://dev.meta.ai/events/global-hackathon
+**Author:** Dmitriy Sushkov.

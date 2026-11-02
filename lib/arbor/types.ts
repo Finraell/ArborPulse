@@ -1,4 +1,8 @@
 export type Box = { x: number; y: number; width: number; height: number };
+export type EvidenceFrame = { id: string; t: number; url: string };
+export type EvidenceFinding = { text: string; source: "frame" | "measurement" | "field_note"; refs: string[] };
+export type AIReceipt = { provider: "Meta Model API"; model: string; requestId: string | null; createdAt: string; inputTokens: number | null; outputTokens: number | null; cachedInputTokens: number; estimatedUsd: number | null; promptVersion: string };
+export type CapturePlan = { summary: string; treeBox: Box; referenceBox: Box; treeReason: string; referenceReason: string; checks: { severity: "info" | "recapture"; text: string; frameIds: string[] }[]; questions: string[] };
 export type MotionSample = { t: number; treeX: number; treeY: number; cameraX: number; cameraY: number; x: number; y: number; quality: number };
 export type SpectrumBin = { hz: number; power: number };
 export type Analysis = {
@@ -6,8 +10,9 @@ export type Analysis = {
   samples: MotionSample[]; spectrum: SpectrumBin[]; frequency: number | null; spectralConcentration: number;
   amplitude: number; rms: number; cameraRms: number; coverage: number; usable: boolean; warnings: string[];
   treeBox: Box; referenceBox: Box;
+  frequencyResolution?: number; frequencyAxis?: "horizontal" | "vertical"; longestDropout?: number;
 };
-export type FieldContext = { name: string; location: string; notes: string; target: "none" | "occasional" | "frequent"; concern: boolean; synthetic: boolean };
+export type FieldContext = { name: string; location: string; notes: string; target: "none" | "occasional" | "frequent"; concern: boolean; synthetic: boolean; attribution?: string; sourceUrl?: string; mediaLicense?: string; captureWarning?: string };
 export type Brief = { priority: "Review first" | "Standard review" | "Recapture"; summary: string; evidence: string[]; nextSteps: string[]; limitations: string[] };
-export type AIBrief = { summary: string; observations: string[]; questions: string[]; captureAdvice: string[] };
-export type Recording = FieldContext & { id: string; source: string; poster: string; species: string; treeBox: Box; referenceBox: Box };
+export type AIBrief = { summary: string; observations: string[]; questions: string[]; captureAdvice: string[]; findings?: EvidenceFinding[] };
+export type Recording = FieldContext & { id: string; source: string; poster: string; species: string; treeBox: Box; referenceBox: Box; durationLabel?: string; attribution?: string; sourceUrl?: string };

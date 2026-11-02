@@ -1,20 +1,22 @@
 # ArborPulse
 
-[Open workspace](https://arborpulse-dima.finraell.chatgpt.site) · [GitHub repository](https://github.com/Finraell/ArborPulse)
+[Open workspace](https://arborpulse-dima.finraell.chatgpt.site) · [Repository](https://github.com/Finraell/ArborPulse) · [Local setup](docs/deployment.md)
 
-Both are currently private. The workspace requires the owner’s ChatGPT sign-in.
+**Every tree has a rhythm. Turn video into traceable inspection evidence.**
 
-**Every tree has a rhythm. Turn a short video into measurable motion and an inspection evidence brief.**
+Meta Global AI Developer Hackathon 2026 · Indie developer · Push the Frontier.
+The repository and hosted workspace are currently private.
 
-Built during the **Meta Global AI Developer Hackathon 2026**, indie developer track, **Push the Frontier** theme.
+ArborPulse combines local motion measurement with **Muse Spark 1.3** at two useful
+points: planning what to measure, and interpreting the evidence afterward. It
+helps a qualified arborist prepare questions and review a capture. It does not
+predict failure, diagnose hidden decay, or certify a tree as safe.
 
-ArborPulse tracks a selected tree region against a stationary reference, measures projected sway, and produces a reviewable field brief. **Muse Spark 1.3** can combine sampled frames, measurements, and recorder notes into grounded observations and questions for a qualified arborist.
+![ArborPulse workspace](docs/screenshots/workspace-v2.jpg)
 
-> Experimental inspection support. This project does not detect hidden decay, predict tree failure, certify safety, or replace an on-site arborist assessment. Included videos are explicitly synthetic fixtures, not a field-validation dataset.
+## Run the complete app locally
 
-## Run the app
-
-Requires Node.js **22.13+** and pnpm **11.25.0**.
+Requires Node.js **22.13+**, Git, and pnpm **11.25.0**.
 
 ```bash
 git clone https://github.com/Finraell/ArborPulse.git
@@ -22,112 +24,170 @@ cd ArborPulse
 corepack enable
 corepack prepare pnpm@11.25.0 --activate
 pnpm install --frozen-lockfile
-pnpm dev
+pnpm setup:local
 ```
 
-Open **http://localhost:5173**. No API key is needed for local video analysis, the synthetic demos, charts, deterministic reports, or exports.
+Open the newly created **`.dev.vars`** in your editor and set:
 
-### Enable the Meta integration
-
-Copy `.env.example` to `.dev.vars` and set `MODEL_API_KEY` to your own Meta Model API key. Restart the development server. Keep the file untracked. For a hosted Site, set the same variable as a **server-side secret** in the hosting environment and deploy the updated environment revision.
-
-In **Field brief**, explicitly consent to sending three JPEG frames, measured values, and the entered field notes, then select **Generate AI notes**. The full video stays in the browser. A missing key or failed model request never produces a fabricated AI response: the local evidence brief remains available and the UI displays connection status.
-
-The adapter uses the documented endpoint `https://api.meta.ai/v1/chat/completions`, model `muse-spark-1.3`, multimodal `image_url` input, and strict JSON-schema output. The response is validated again server-side. No live Meta request has been verified in this environment because no Meta API key was provided; provider behavior is covered by mocked contract tests.
-
-## Use it
-
-1. Select **Riverside oak**, **Meadow pine**, or **Windy capture**, or upload an MP4/MOV/WebM clip (maximum 250 MB in the browser).
-2. Select **Tree region** and drag over a textured branch junction or crown. Select **Fixed reference** and drag over a separate stationary textured wall, post, or ground patch. Demo regions are preselected.
-3. Select **Run motion scan**. The browser samples the first 30 seconds at 12 fps and at most 512 px width. Videos need at least 6 seconds; 20–30 seconds is preferable.
-4. Inspect the displacement trace, spectrum, tracking retention, and capture notes. Poor captures request a recapture rather than reporting a convincing-looking frequency.
-5. Enter visible concerns, target occupancy, and notes. Open **Field brief**. Queue priority depends on capture quality and reported field context, not sway amplitude.
-6. Download the text brief, print to PDF, export raw samples to CSV or the full evidence record to JSON, or save a brief in the current browser.
-
-MOV/HEVC decoding depends on the browser. If decoding fails, use an H.264 MP4. Uploads are session-local; a browser refresh discards the selected video. Only explicitly saved text briefs persist in local storage. The install manifest supports adding the app to a home screen; offline analysis after closing/reloading the app is not guaranteed.
-
-## What is implemented
-
-| Capability | Implementation |
-| --- | --- |
-| Video input | Browser-local files and three reproducible synthetic MP4s |
-| Region selection | Manual normalized boxes for tree and stationary reference |
-| Browser tracking | Textured-corner selection, normalized patch correlation, forward/backward rejection |
-| Camera correction | Median translation of the reference subtracted from tree translation |
-| Signal analysis | Linear detrending, Hann-windowed DFT, gated dominant observed response |
-| Inspectable evidence | Time series, spectrum, retention, capture warnings, CSV/JSON |
-| Field brief | Deterministic evidence + context, text export, print/PDF, local saves |
-| Meta integration | Muse Spark 1.3 reads three frames + measured evidence, returns validated notes |
-| Optional backend | FastAPI + OpenCV Lucas–Kanade upload analysis service |
-| SAM 3.1 / voice | Not implemented; no segmentation or transcription claims |
-
-## Validate
+```dotenv
+MODEL_API_KEY="your-key-entered-only-on-your-computer"
+META_MODEL="muse-spark-1.3"
+META_MAX_REQUESTS_PER_HOUR="20"
+```
 
 ```bash
+pnpm local:doctor
+pnpm meta:check
+pnpm local
+```
+
+Open **http://localhost:5173**. Windows users may also launch
+`Start-ArborPulse.ps1` after installation. `local:doctor` prints configuration
+status without printing the key. `meta:check` makes one small, real model call
+and prints its response ID and usage. No key is needed for video measurement,
+charts, deterministic briefs, or exports.
+
+`.dev.vars` is ignored by Git. The local server holds the credential and binds
+to loopback. Do not put the key in a browser field, frontend environment variable,
+GitHub issue, screenshot, commit, or source archive. CI runs a credential scan.
+
+## The inspection workflow
+
+1. Select a licensed real recording, a labelled controlled fixture, or a local
+   MP4/MOV/WebM file (up to 250 MB; browser codec support varies).
+2. With your consent, **Inspect scene with Muse Spark** sends six timestamped
+   JPEG stills and notes to Meta. The model proposes a textured tree region and a
+   separate world-stationary reference, with frame-linked capture checks.
+3. Review both boxes and confirm them, or keep manual regions. AI proposals
+   remain provisional. An overlay or moving tree cannot serve as a fixed reference.
+4. **Run motion scan** decodes locally at 12 Hz, at most 640 px wide, over the
+   first 60 seconds. It tracks features, subtracts reference translation, and
+   measures projected displacement and a gated observed response frequency.
+5. Inspect the trace, spectrum, quality warnings, and six source frames. Poor
+   capture quality produces **Recapture**. Context-based queue priority uses
+   recorder concerns and target occupancy; sway amplitude is not a risk score.
+6. Generate the **grounded AI brief**. Each finding cites a supplied frame,
+   measurement, or field-note ID. The server rejects unknown/mistyped references.
+7. Export CSV, a full evidence JSON, a standalone illustrated HTML report, or a
+   text brief. The HTML opens offline and can be printed to PDF. It preserves
+   source attribution and contains no scripts, API key, or remote image loads.
+
+The browser keeps the full video local. The server receives sampled stills only
+on an explicit AI action. Saved text briefs use localStorage; uploaded videos and
+unsaved measurements are session-local. Offline reload is not guaranteed.
+
+## What Meta actually does
+
+| Stage | Model input | Concrete output | Verification |
+| --- | --- | --- | --- |
+| Scene planning | Six labelled frames, notes | Two proposed regions, reasons, capture concerns | Bounded non-overlapping boxes; known frame IDs; human confirmation |
+| Grounded interpretation | Measured metric IDs, six frames, recorder evidence | Source-linked observations, on-site questions, capture advice | Strict JSON schema; source-type and reference checks |
+| Response provenance | Provider metadata | Model, request ID, time, prompt version, token use, cost estimate | Produced only after a successful validated API response |
+
+The adapter uses `https://api.meta.ai/v1/chat/completions`, multimodal
+`image_url` input, and strict JSON-schema output. Identical requests are deduped
+in flight and cached for 30 minutes; rejected responses are never cached. There
+are no automatic paid retries. The default cap is 20 requests/hour **per process**,
+not a durable public-service quota. Receipts show estimated standard-mode cost;
+the provider dashboard remains authoritative for billing and credit balance.
+
+**Live Meta verification is pending a user-configured key.** Automated provider
+contract tests use labelled fixtures; they are not presented as real model
+responses. Health status distinguishes a configured key from a verified response.
+SAM segmentation and voice are not implemented or claimed.
+
+## Real footage and reproducible verification
+
+Two licensed real recordings accompany three synthetic known-input fixtures.
+The real clips intentionally expose camera/reference limitations. They do not
+supply tree-health labels. A useful tool must be able to decline a measurement.
+
+| Check | Reference | Current expected behavior |
+| --- | --- | --- |
+| Synthetic oak | Imposed 0.35 Hz | Recover within one spectral bin |
+| Synthetic pine | Imposed 0.75 Hz | Recover within one spectral bin |
+| Deliberate camera shake | Known capture fault | Recapture; suppress frequency |
+| Urban trees in wind | Real footage, no motion truth | Preset camera-motion gate requests recapture |
+| Trout Lake oak | Research clip, camera on adjacent tree | Known reference limitation forces recapture |
+
+Measured OpenCV results are in [the validation manifest](public/validation/report.json)
+and raw evidence in [docs/data](docs/data). Browser evidence exports are recorded
+separately because the tracking implementations differ. Published Trout Lake
+optical values (0.23–0.24 Hz), the matching-window accelerometer value (0.49 Hz),
+and the 30-minute sensor value (0.24 Hz) must not be conflated.
+
+```bash
+pnpm security:check
 pnpm typecheck
 pnpm test
 pnpm build
 ```
 
-The TypeScript suite verifies frequency recovery, drift removal, noise/quality gates, context-based queueing, report provenance, Meta request/response contracts, input consistency, consent, origin checks, and payload limits.
-
-Optional OpenCV service tests:
+Optional Python checks and full-video benchmark:
 
 ```bash
 python -m venv .venv
-# macOS/Linux; Windows: .venv\Scripts\activate
-source .venv/bin/activate
+# Activate it: macOS/Linux: source .venv/bin/activate
+# Windows PowerShell: .venv\Scripts\Activate.ps1
 pip install -r backend/requirements-dev.txt
 PYTHONPATH=backend pytest backend/tests -q
+PYTHONPATH=backend python scripts/validate_recordings.py
 ```
 
-The Python suite decodes the actual MP4 fixtures, tracks the two regions, verifies known imposed frequencies, rejects the shaking-camera fixture, and tests the upload API. Recreate fixtures with `python scripts/generate_demo.py` (Pillow and system ffmpeg required).
+The TypeScript suite covers signal gates, evidence consistency, consent, body
+limits, origin checks, model provenance, rejected-result recovery, paid-call
+deduplication, and safe report export. Python tests also decode the actual videos.
+Windows users can set `$env:PYTHONPATH="backend"` before the Python commands.
+Recreate controlled videos with `python scripts/generate_demo.py` (Pillow and
+ffmpeg required). Real video source metadata and derivative changes are retained.
 
-## Optional OpenCV API
+## Hosting and the $150 credits
 
-The web app uses its **browser engine by default**; this separate API is for reproducible server-side analysis and integration work. No uploaded video is sent to this service by the current UI.
+Start locally while developing. API credits belong to the provider account/team
+behind your key; local versus hosted execution does not change that. Confirm the
+credits are eligible for **Meta Model API** in the project you select. A credit
+issued by another inference provider requires that provider's integration.
+
+For a judging URL, deploy this app with `MODEL_API_KEY` stored as a **server-side
+hosting secret**. It does not go in the repository or GitHub Actions. The current
+hosted workspace remains owner-private and unkeyed. Before public multi-user
+access, add durable authentication and per-user spending limits. Sharing the
+private repository and opening the site to judges are deliberate separate steps.
+
+## Architecture and boundaries
+
+React/TypeScript on Vite + Vinext, packaged as a Cloudflare Worker by Sites. No
+database or cloud video store is required. The optional FastAPI/OpenCV service
+provides a second reproducible motion engine; the frontend does not call it.
 
 ```bash
 pip install -r backend/requirements.txt
 PYTHONPATH=backend uvicorn arborpulse.main:app --reload --port 8000
 ```
 
-Then use **http://localhost:8000/docs**, or:
+Its interactive API is at `http://localhost:8000/docs`. It accepts up to 100 MB,
+analyzes up to 60 seconds, serializes CPU work, and deletes temporary uploads.
+Production requires `ENVIRONMENT=production`, `ARBORPULSE_API_TOKEN`, and explicit
+CORS origins. Docker Compose binds to loopback.
 
-```bash
-curl http://localhost:8000/v1/analyze \
-  -F 'file=@public/demo/oak.mp4' \
-  -F 'tree_box=[0.33,0.23,0.32,0.32]' \
-  -F 'reference_box=[0.78,0.46,0.16,0.28]'
-```
+Projected pixels are not physical displacement. Reference subtraction corrects
+translation, not rotation, rolling shutter, parallax, or a moving reference.
+Observed response is not automatically natural frequency. Field reliability
+requires diverse real captures, calibration where needed, and arborist review.
 
-The API accepts at most 100 MB per upload, samples at approximately 12 fps for up to 30 seconds, serializes CPU-heavy work, and deletes temporary uploads. For deployment set `ENVIRONMENT=production` and `ARBORPULSE_API_TOKEN`; pass it as `Authorization: Bearer …`. `docker compose up --build` runs the service on loopback port 8000 and requires that token. Do not expose the development service directly to the public internet.
+See [methodology](docs/methodology.md), [deployment](docs/deployment.md),
+[demo script](docs/demo-script.md), [submission draft](docs/submission.md), and
+[readiness assessment](docs/hackathon-readiness.md).
 
-## Project structure
+## Sources and licenses
 
-- `components/Workspace.tsx` — recording workflow and evidence UI.
-- `lib/arbor/video.ts` — local video sampler and patch tracker.
-- `lib/arbor/signal.ts` — deterministic signal processing.
-- `lib/arbor/brief.ts` — context-based queue and exportable brief.
-- `lib/arbor/meta.ts`, `app/api/report/route.ts` — bounded, server-side Meta adapter.
-- `backend/arborpulse/` — optional FastAPI/OpenCV engine.
-- `public/demo/` — generated fixtures, posters, and known input parameters.
-- `docs/` — methodology, deployment, submission draft, demo script, and measured validation.
-
-The frontend is React/TypeScript on **Vite + Vinext**, using the Next App Router API shape. The supplied Sites integration packages a Cloudflare Worker; no database, external map, or paid asset service is required. Hosting is owner-private unless you explicitly change its audience. A public judging URL requires a separate sharing/deployment decision.
-
-## Scientific limits
-
-Observed response depends on wind forcing, viewpoint, scale, foliage, and tree geometry. It is **not automatically a natural frequency**. Detrended displacement is measured in pixels at the analysis resolution, with no meter or angle conversion. Translation correction does not remove camera rotation, rolling shutter, parallax, or independently moving reference objects. A single tracked region is not a structural model. Synthetic verification demonstrates software behavior; field validity requires real recordings and arborist review.
-
-See [Methodology](docs/methodology.md), [Demo script](docs/demo-script.md), [Submission draft](docs/submission.md), and [Deployment](docs/deployment.md).
-
-## Primary references
-
-- [Meta Global AI Developer Hackathon](https://dev.meta.ai/events/global-hackathon)
-- [Meta chat completions quickstart](https://dev.meta.ai/docs/cookbook/quickstart-chat-completions)
+- [Meta hackathon](https://dev.meta.ai/events/global-hackathon)
+- [Meta authentication](https://dev.meta.ai/docs/authentication)
 - [Meta image understanding](https://dev.meta.ai/docs/image-understanding)
 - [Meta structured output](https://dev.meta.ai/docs/structured-output)
+- [Meta pricing](https://dev.meta.ai/docs/pricing-rate-limits)
 - [OpenCV optical flow](https://docs.opencv.org/4.x/d4/dee/tutorial_optical_flow.html)
+- [Media attribution and licenses](public/field/ATTRIBUTION.md)
 
-MIT licensed. Created by Dmitriy Sushkov.
+Code: MIT. Third-party media: CC BY-SA 4.0 / CC BY 4.0 as attributed.
+Created by Dmitriy Sushkov.

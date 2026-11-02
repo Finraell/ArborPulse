@@ -28,15 +28,17 @@ export function summarize(samples: MotionSample[], width: number, height: number
   const duration = samples.length > 1 ? samples[samples.length - 1].t - samples[0].t : 0;
   const sampleRate = duration > 0 ? (samples.length - 1) / duration : 0;
   const x = detrend(samples.map(s => s.x)), y = detrend(samples.map(s => s.y));
-  const axis = mean(x.map(v => v * v)) >= mean(y.map(v => v * v)) ? x : y;
+  const horizontal = mean(x.map(v => v * v)) >= mean(y.map(v => v * v));
+  const axis = horizontal ? x : y;
   const bins = spectrum(axis, sampleRate), candidates = bins.filter(b => b.hz >= 0.1 && b.hz <= 2);
   const peak = candidates.reduce<SpectrumBin | null>((a, b) => !a || b.power > a.power ? b : a, null);
   const sum = bins.reduce((a, b) => a + b.power, 0);
   const concentration = peak && sum > 0 ? bins.filter(b => Math.abs(b.hz - peak.hz) < sampleRate / Math.max(1, samples.length) * 1.1).reduce((a, b) => a + b.power, 0) / sum : 0;
   const coverage = mean(samples.map(s => s.quality));
   const rms = Math.sqrt(mean(axis.map(v => v * v)));
-  const camera = detrend(samples.map(s => s.cameraX));
-  const cameraY = detrend(samples.map(s => s.cameraY));
+  const avgCameraX = mean(samples.map(s => s.cameraX)), avgCameraY = mean(samples.map(s => s.cameraY));
+  const camera = samples.map(s => s.cameraX - avgCameraX);
+  const cameraY = samples.map(s => s.cameraY - avgCameraY);
   const cameraRms = Math.sqrt(mean(camera.map((v, i) => v * v + cameraY[i] * cameraY[i])));
   const amplitude = axis.length ? Math.max(...axis) - Math.min(...axis) : 0;
   const warnings = [...extraWarnings];
@@ -45,8 +47,16 @@ export function summarize(samples: MotionSample[], width: number, height: number
   if (rms < 0.35) warnings.push("Motion is near the pixel noise floor. A reliable oscillation frequency cannot be reported.");
   if (cameraRms > 5) warnings.push("Substantial camera motion. Translation correction does not remove rotation or parallax.");
   if (concentration < 0.3) warnings.push("No concentrated oscillation peak; wind response may be irregular.");
-  const usable = duration >= 6 && coverage >= 0.65 && cameraRms <= 5;
+  let gap = 0, longestDropout = 0;
+  for (const sample of samples) { gap = sample.quality < .3 ? gap + (sampleRate > 0 ? 1 / sampleRate : 0) : 0; longestDropout = Math.max(longestDropout, gap); }
+  if (longestDropout > .5) warnings.push("A tracking gap longer than half a second makes the held signal unreliable. Recapture or choose clearer regions.");
+  const usable = duration >= 6 && coverage >= 0.65 && cameraRms <= 5 && longestDropout <= .5;
   const frequency = usable && rms >= 0.35 && concentration >= 0.3 && peak && peak.hz * duration >= 3 ? peak.hz : null;
   if (peak && rms >= 0.35 && peak.hz * duration < 3) warnings.push("Fewer than three cycles observed. Record longer before interpreting frequency.");
-  return { schemaVersion: "1.0", engine: "PhysicsLens / sparse patch tracking v1", duration, sampleRate, width, height, samples, spectrum: bins, frequency, spectralConcentration: concentration, amplitude, rms, cameraRms, coverage, usable, warnings: [...new Set(warnings)], treeBox, referenceBox };
+  return { schemaVersion: "1.0", engine: "PhysicsLens / sparse patch tracking v2", duration, sampleRate, width, height, samples, spectrum: bins, frequency, frequencyResolution: duration > 0 ? 1 / duration : 0, frequencyAxis: horizontal ? "horizontal" : "vertical", longestDropout, spectralConcentration: concentration, amplitude, rms, cameraRms, coverage, usable, warnings: [...new Set(warnings)], treeBox, referenceBox };
+}
+
+/** Known source/capture limitations override numerical track retention. */
+export function withCaptureWarning(analysis: Analysis, warning?: string): Analysis {
+  return warning ? { ...analysis, usable: false, frequency: null, warnings: [...analysis.warnings, warning] } : analysis;
 }

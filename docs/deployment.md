@@ -1,31 +1,100 @@
-# Deployment and operations
+# Local first, judging URL second
 
-## Hosted app
+The recommended development setup is your computer running the app's server.
+The browser calls `localhost:5173`; that server sends selected frames and compact
+measurements to Meta using a key read from ignored `.dev.vars`. Hosting is optional.
 
-This repository includes the supplied Sites/Vinext Vite integration. `pnpm build` emits a Worker deployment and static assets in `dist/`. Keep the tracked `.openai/hosting.json` project identity when updating this deployment. Do not copy that identity to a different user's deployment.
+## Local installation
 
-The current deployment defaults to owner-private. Source visibility on GitHub and website audience are separate. Granting judges access requires an intentional sharing decision; a private URL alone is not a publicly accessible demo.
+Node.js 22.13+, Git, pnpm 11.25.0:
 
-Set `MODEL_API_KEY` as a server-side hosting secret and optionally `META_MODEL=muse-spark-1.3`. Never use a `VITE_` or `NEXT_PUBLIC_` prefix for a model credential. Deploy after changing the environment revision. `/api/health` reports whether a key is configured but never returns its value.
+```bash
+git clone https://github.com/Finraell/ArborPulse.git
+cd ArborPulse
+corepack enable
+corepack prepare pnpm@11.25.0 --activate
+pnpm install --frozen-lockfile
+pnpm setup:local
+```
 
-`POST /api/report` checks request origin, explicit consent, payload size (including streamed bodies), bounded field lengths, box bounds, regular sample times, and consistency of corrected displacements. It recalculates summary measurements rather than trusting client-provided metric values. It sets a 45-second model deadline and validates the returned JSON. Browser-supplied measurements are still untrusted evidence; recalculation does not certify that the underlying capture was genuine.
+Edit `.dev.vars` locally:
 
-The owner-private hosting boundary protects the model endpoint. Before public multi-user deployment, add authentication, per-user rate limits, usage quotas, abuse controls, and cost monitoring appropriate to your host. Do not expose an unrestricted paid-model endpoint.
+```dotenv
+MODEL_API_KEY="your-own-key"
+META_MODEL="muse-spark-1.3"
+META_MAX_REQUESTS_PER_HOUR="20"
+```
 
-## Local configuration
+```bash
+pnpm local:doctor
+pnpm meta:check
+pnpm local
+```
 
-Create `.dev.vars` from `.env.example` for the Cloudflare development runtime. Real values are ignored by Git. Never paste credentials into source, screenshots, demos, issues, or commits.
+`setup:local` creates a blank file without replacing an existing one. The doctor
+prints key presence, never its value. The access check performs one small paid
+request; it prints model, response ID, and usage only. The local server binds to
+127.0.0.1. `Start-ArborPulse.ps1` is a Windows launch shortcut after installation.
 
-## OpenCV service
+`pnpm security:check` rejects tracked credential files and recognizable key
+material. Git ignores local credentials; this check is an additional guard, not
+a guarantee that every possible secret format is detectable. Never upload the
+configuration file or copy a key into the browser, a demo, a source archive, or Git.
 
-The optional API is independent of the browser engine. It accepts video uploads when called explicitly and deletes its temporary files after each analysis. The current frontend does not call it. Run it behind a reverse proxy with request body and timeout limits; set a strong `ARBORPULSE_API_TOKEN` and explicit `CORS_ORIGINS`. Local Docker Compose binds only to 127.0.0.1 and caps temporary storage and memory.
+## Credits and cost
 
-## Data lifecycle
+Use the key belonging to the account/team where the $150 credits are available.
+Confirm provider, eligible models, expiry, and remaining balance in that provider's
+dashboard. The current adapter targets Meta Model API; credits from a different
+inference provider are not automatically transferable.
 
-- Browser analysis: no network upload; decoded frames and series exist in memory.
-- Explicit AI generation: at most three JPEG frames, field context, and compact metrics go through the server to Meta. Consult Meta account terms for provider-side handling.
-- Local saved briefs: text and name/date in browser localStorage, up to 30 records.
-- Exports: downloaded by the user; no hosted database or cloud video archive.
-- Python API: explicitly uploaded clip stored temporarily and removed on completion/error.
+Muse Spark standard-mode estimates currently use $1.25/M input, $4.25/M output,
+and $0.15/M cached input tokens (official pricing checked 2026-11-02). For example,
+10,000 input + 1,000 output tokens are approximately $0.01675, excluding any
+account-specific adjustments. Image/reasoning token use varies; this is not a
+promise about the number of inspections $150 will buy. The account invoice and
+provider budget controls are authoritative. No Contributor-data mode is enabled.
 
-No claim is made that browser localStorage is encrypted or synchronized across devices.
+Receipts preserve returned usage and estimated cost. In-flight deduplication and
+30-minute validated-result caching reduce accidental repeats. No auto-retries.
+The request cap is per running process and resets after restart; use provider-side
+budgets as well. Session totals include this tab's successful new responses only;
+rejected requests may still consume provider tokens and are not included.
+
+## Hosted deployment
+
+The existing owner-private Site is
+https://arborpulse-dima.finraell.chatgpt.site . The source project identity in
+`.openai/hosting.json` is retained for updates. Do not reuse it for another user's
+project. `pnpm build` emits Worker code and static assets in `dist/`.
+
+A judging deployment needs `MODEL_API_KEY` set as a **server-side hosting secret**;
+`META_MODEL` and `META_MAX_REQUESTS_PER_HOUR` may also be configured. Never use a
+`VITE_` or `NEXT_PUBLIC_` credential. Apply the hosting environment revision and
+redeploy. No GitHub secret is required to run the app locally or through Sites.
+
+The site remains owner-private and unkeyed until deliberately configured. Site
+access and repository visibility are separate. Before public paid-model access,
+add authenticated users, durable per-user quotas, budget enforcement and abuse
+controls. A process-local cap is insufficient for multiple Worker instances.
+
+## Request and data boundaries
+
+Both AI routes require explicit consent, same-origin browser requests, bounded
+JSON bodies (1 MB including streaming), bounded notes, and validated frame IDs.
+Reports recompute measurements from consistent regular samples. The model has a
+60-second deadline. Invalid JSON, regions, evidence references, or truncated
+responses cannot become cached successful results. Errors omit upstream bodies
+and credentials. A configured key is not displayed as a verified model response.
+
+- Full videos: browser memory; no upload in the normal frontend.
+- AI action: six timestamped JPEG frames, notes, and compact measurements are
+  sent through the server to Meta. Consult the provider's account terms.
+- Saved briefs: text/name/date in browser localStorage, maximum 30 records.
+- Exports: downloaded locally. Full JSON and HTML contain source-frame evidence;
+  retain media attribution and share with the intended reviewer.
+- Optional Python API: explicitly uploaded video exists temporarily and is removed
+  on completion/error. Its frontend integration is not enabled.
+
+The OpenCV API requires separate auth and reverse-proxy/body limits in production.
+Local Docker binds to loopback. Browser localStorage is not encrypted or synced.

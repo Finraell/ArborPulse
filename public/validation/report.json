@@ -1,0 +1,53 @@
+{
+  "generatedAt": "2026-11-02T07:05:01.751489+00:00",
+  "engine": "PhysicsLens / OpenCV Lucas-Kanade v2",
+  "rows": [
+    {
+      "name": "Riverside oak",
+      "sourceType": "Synthetic known-input fixture",
+      "expectedHz": 0.35,
+      "measuredHz": 0.3333333333333333,
+      "passed": true,
+      "note": "Imposed 0.35 Hz; recovered 0.333 Hz at 640 px width, within one bin. Synthetic software check only."
+    },
+    {
+      "name": "Meadow pine",
+      "sourceType": "Synthetic known-input fixture",
+      "expectedHz": 0.75,
+      "measuredHz": 0.7222222222222222,
+      "passed": true,
+      "note": "Imposed 0.75 Hz; recovered 0.722 Hz at 640 px width, within one bin. Synthetic software check only."
+    },
+    {
+      "name": "Camera shake",
+      "sourceType": "Synthetic known-input fixture",
+      "expectedHz": null,
+      "measuredHz": null,
+      "passed": true,
+      "note": "The deliberate camera-shake fixture must request recapture and suppress frequency."
+    },
+    {
+      "name": "Urban field capture",
+      "sourceType": "Licensed real footage / capture check",
+      "expectedHz": null,
+      "measuredHz": null,
+      "passed": true,
+      "note": "No ground-truth frequency. Reference motion 5.76 px RMS exceeds the conservative 5 px capture gate; recapture is the expected outcome for these preset regions."
+    },
+    {
+      "name": "Trout Lake stress case",
+      "sourceType": "Licensed real footage / capture check",
+      "expectedHz": null,
+      "measuredHz": null,
+      "passed": true,
+      "note": "No stationary world reference established; source provenance forces recapture. Published optical estimates 0.23\u20130.24 Hz and matching-window accelerometer 0.49 Hz are distinct; no agreement is claimed."
+    }
+  ],
+  "liveMetaVerified": false,
+  "limitations": [
+    "These video results use the optional OpenCV engine. Browser patch tracking is a separate implementation and is checked through browser exports.",
+    "Real clips supply capture stress cases, not certified motion, defect, or tree-health labels. A recapture result is deliberately allowed.",
+    "Provider contract tests use labelled fixtures. A real Meta key and successful response receipt are still required to verify live model behavior.",
+    "No failure prediction, natural-frequency identification, or arborist field validation is claimed."
+  ]
+}

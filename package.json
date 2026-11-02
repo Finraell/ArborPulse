@@ -1,6 +1,6 @@
 {
   "name": "arborpulse",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "engines": {
     "node": ">=22.13.0"
@@ -13,7 +13,12 @@
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate",
     "test": "node scripts/test.mjs",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "setup:local": "node scripts/local.mjs setup",
+    "local": "node scripts/local.mjs start",
+    "local:doctor": "node scripts/local.mjs doctor",
+    "meta:check": "node scripts/local.mjs check",
+    "security:check": "node scripts/check-secrets.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

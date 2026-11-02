@@ -70,3 +70,19 @@ def test_upload_api_complete(monkeypatch):
     assert response.status_code == 200
     assert response.json()["retained"] is False
     assert response.json()["analysis"]["usable"]
+
+
+def test_pan_and_dropout_override_high_mean_retention():
+    pan = signal()
+    for i, row in enumerate(pan):
+        row["cameraX"] = i/10
+        row["treeX"] = row["x"] + i/10
+    assert not summarize(pan, 640, 400, TREE, REF)["usable"]
+    gap = signal()
+    for row in gap[100:112]:
+        row["quality"] = 0
+    result = summarize(gap, 640, 400, TREE, REF)
+    assert result["coverage"] > .9
+    assert result["longestDropout"] > .5
+    assert not result["usable"]
+    assert result["frequency"] is None

@@ -1,9 +1,9 @@
 import { median, summarize } from "./signal";
-import type { Analysis, Box, MotionSample } from "./types";
+import type { Analysis, Box, EvidenceFrame, MotionSample } from "./types";
 
 type GrayFrame = { data: Uint8Array; width: number; height: number };
 type Point = { x: number; y: number; ox: number; oy: number };
-export type ScanResult = { analysis: Analysis; frames: string[] };
+export type ScanResult = { analysis: Analysis; frames: EvidenceFrame[] };
 const PATCH = 3, SEARCH = 6;
 
 function gray(image: ImageData): GrayFrame {
@@ -88,6 +88,26 @@ function eventOnce(video: HTMLVideoElement, event: string, signal: AbortSignal, 
 }
 
 /** Samples the clip locally. No video or image leaves the browser in this function. */
+export async function sampleClip(source: string, signal: AbortSignal): Promise<EvidenceFrame[]> {
+  const video = document.createElement("video"); video.muted = true; video.playsInline = true;
+  try {
+    await eventOnce(video, "loadeddata", signal, () => { video.src = source; video.load(); });
+    if (!Number.isFinite(video.duration) || video.duration < 6) throw new Error("Record at least 6 seconds; 20–60 seconds is recommended.");
+    const width = Math.min(640, video.videoWidth), height = Math.round(video.videoHeight * width / video.videoWidth);
+    const canvas = document.createElement("canvas"); canvas.width = width; canvas.height = height;
+    const ctx = canvas.getContext("2d"); if (!ctx) throw new Error("Canvas is unavailable.");
+    const frameCount = Math.floor(Math.min(video.duration - 1 / 12, 60) * 12) + 1;
+    const frames: EvidenceFrame[] = [];
+    for (let i = 0; i < 6; i++) {
+      const t = Math.floor(i * (frameCount - 1) / 5) / 12;
+      if (Math.abs(video.currentTime - t) > .001) await eventOnce(video, "seeked", signal, () => { video.currentTime = t; });
+      ctx.drawImage(video, 0, 0, width, height);
+      frames.push({ id: `F${String(i).padStart(2, "0")}`, t, url: canvas.toDataURL("image/jpeg", .65) });
+    }
+    return frames;
+  } finally { video.removeAttribute("src"); video.load(); }
+}
+
 export async function scanVideo(source: string, treeBox: Box, referenceBox: Box, signal: AbortSignal, onProgress: (p: number) => void): Promise<ScanResult> {
   if (boxesOverlap(treeBox, referenceBox)) throw new Error("Tree and reference regions overlap. Select a separate stationary background.");
   const video = document.createElement("video");
@@ -95,13 +115,14 @@ export async function scanVideo(source: string, treeBox: Box, referenceBox: Box,
   try {
     await eventOnce(video, "loadeddata", signal, () => { video.src = source; video.load(); });
     if (!Number.isFinite(video.duration) || video.duration < 6) throw new Error("Use a video at least 6 seconds long; 20–30 seconds is recommended.");
-    const width = Math.min(512, video.videoWidth), height = Math.round(video.videoHeight * width / video.videoWidth);
+    const width = Math.min(640, video.videoWidth), height = Math.round(video.videoHeight * width / video.videoWidth);
     if (width < 160 || height < 120) throw new Error("The video is too small to track. Use at least 320 × 240 pixels.");
     const canvas = document.createElement("canvas"); canvas.width = width; canvas.height = height;
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) throw new Error("Canvas is unavailable in this browser.");
-    const fps = 12, duration = Math.min(video.duration - 1 / fps, 30), count = Math.floor(duration * fps) + 1;
-    const samples: MotionSample[] = [], frames: string[] = [];
+    const fps = 12, duration = Math.min(video.duration - 1 / fps, 60), count = Math.floor(duration * fps) + 1;
+    const captureIndices = Array.from({ length: 6 }, (_, i) => Math.floor(i * (count - 1) / 5));
+    const samples: MotionSample[] = [], frames: EvidenceFrame[] = [];
     let previous: GrayFrame | null = null, tree: Point[] = [], background: Point[] = [], nTree = 0, nBackground = 0;
     let lastTreeX = 0, lastTreeY = 0, lastCameraX = 0, lastCameraY = 0;
     for (let index = 0; index < count; index++) {
@@ -109,7 +130,8 @@ export async function scanVideo(source: string, treeBox: Box, referenceBox: Box,
       const t = index / fps;
       if (Math.abs(video.currentTime - t) > .001) await eventOnce(video, "seeked", signal, () => { video.currentTime = t; });
       ctx.drawImage(video, 0, 0, width, height);
-      if ([0, Math.floor(count / 2), count - 1].includes(index)) frames.push(canvas.toDataURL("image/jpeg", .65));
+      const captureIndex = captureIndices.indexOf(index);
+      if (captureIndex >= 0) frames.push({ id: `F${String(captureIndex).padStart(2, "0")}`, t, url: canvas.toDataURL("image/jpeg", .65) });
       const current = gray(ctx.getImageData(0, 0, width, height));
       if (!previous) {
         tree = features(current, treeBox, 18); background = features(current, referenceBox, 12);
@@ -125,7 +147,7 @@ export async function scanVideo(source: string, treeBox: Box, referenceBox: Box,
       previous = current; onProgress((index + 1) / count);
       if (index % 4 === 0) await new Promise<void>(resolve => setTimeout(resolve, 0));
     }
-    const warnings = video.duration > 30 ? ["Only the first 30 seconds were sampled."] : [];
+    const warnings = video.duration > 60 ? ["Only the first 60 seconds were sampled."] : [];
     const analysis = summarize(samples, width, height, treeBox, referenceBox, warnings);
     return { analysis, frames };
   } finally { video.removeAttribute("src"); video.load(); }
