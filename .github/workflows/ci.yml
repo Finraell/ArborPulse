@@ -20,6 +20,7 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - run: pnpm security:check
       - run: pnpm typecheck
       - run: pnpm test
       - run: pnpm build
@@ -35,3 +36,4 @@ jobs:
           cache-dependency-path: backend/requirements*.txt
       - run: pip install -r backend/requirements-dev.txt
       - run: PYTHONPATH=backend pytest backend/tests -q
+      - run: PYTHONPATH=backend python scripts/validate_recordings.py
