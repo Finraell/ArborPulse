@@ -2,8 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { summarize, detrend, withCaptureWarning } from "../lib/arbor/signal";
 import { createBrief, reportText } from "../lib/arbor/brief";
-import { aiBriefSchema, metaPayload, requestMetaBrief, requestMetaBriefWithReceipt, requestCapturePlan, parseCapturePlan, parseGroundedBrief, estimateCost } from "../lib/arbor/meta";
-import { boxesOverlap } from "../lib/arbor/video";
+import { aiBriefSchema, metaPayload, requestMetaBrief, requestMetaBriefWithReceipt, requestCapturePlan, parseCapturePlan, parseGroundedBrief, estimateCost, capturePayload, aiJsonSchema } from "../lib/arbor/meta";
+import { boxesOverlap, prepareFirstFrame } from "../lib/arbor/video";
 import { illustratedReport } from "../lib/arbor/report";
 import { POST as capturePOST } from "../app/api/capture/route";
 import { POST } from "../app/api/report/route";
@@ -98,9 +98,9 @@ test("capture route validates consent, duplicate frame IDs, and returns confirme
   const request = (data: unknown) => new Request("https://local.test/api/capture", { method: "POST", body: JSON.stringify(data) });
   try {
     assert.equal((await capturePOST(request({ consent: false, context, frames }))).status, 400);
-    assert.equal((await capturePOST(request({ consent: true, context, frames: [frames[0], frames[0]] }))).status, 400);
+    assert.equal((await capturePOST(request({ consent: true, context, targetTreeBox: tree, frames: [frames[0], frames[0]] }))).status, 400);
     globalThis.fetch = (async () => upstream(plan)) as typeof fetch;
-    const response = await capturePOST(request({ consent: true, context, frames }));
+    const response = await capturePOST(request({ consent: true, context, targetTreeBox: tree, frames }));
     assert.equal(response.status, 200); assert.equal(response.headers.get("cache-control"), "no-store");
     const payload = await response.json() as { plan: { referenceBox: { x: number } } };
     assert.equal(payload.plan.referenceBox.x, .8);
@@ -124,16 +124,16 @@ test("a brief follows the confirmed left tree rather than the recording's origin
       sent = true;
       const payload = JSON.parse(String(init?.body));
       const evidence = JSON.parse(payload.messages[1].content[0].text);
-      assert.deepEqual(evidence.evidence.find((item: { id: string }) => item.id === "M_tree_region").value, [120, 350, 335, 720]);
-      assert.deepEqual(evidence.evidence.find((item: { id: string }) => item.id === "M_reference_region").value, [890, 35, 1000, 900]);
+      assert.deepEqual(evidence.selectedRegions.tree, [120, 350, 335, 720]);
+      assert.deepEqual(evidence.selectedRegions.reference, [890, 35, 1000, 900]);
       assert.match(evidence.task, /Do not substitute a larger or more central tree/);
-      return upstream({ ...grounded, findings: [{ text: "These measurements describe the confirmed tree region.", source: "measurement", refs: ["M_tree_region", "M_tracking"] }] });
+      return upstream({ ...grounded, findings: [{ text: "These measurements describe the confirmed tree region.", source: "measurement", refs: ["M_tracking"] }] });
     }) as typeof fetch;
     const response = await POST(new Request("https://local.test/api/report", { method: "POST", body: JSON.stringify(body) }));
     assert.equal(response.status, 200); assert.equal(sent, true);
     const value = await response.json() as { brief: { findings: { refs: string[] }[] }; receipt: { promptVersion: string } };
-    assert.ok(value.brief.findings[0].refs.includes("M_tree_region"));
-    assert.equal(value.receipt.promptVersion, "arborpulse-evidence-2026-11-04-v3");
+    assert.ok(value.brief.findings[0].refs.includes("M_tracking"));
+    assert.equal(value.receipt.promptVersion, "arborpulse-evidence-2026-11-04-v4");
   } finally { globalThis.fetch = priorFetch; if (key) process.env.MODEL_API_KEY = key; else delete process.env.MODEL_API_KEY; }
 });
 test("an illustrated report retains the exact planning frames and receipt after a different scan", () => {
@@ -151,6 +151,59 @@ test("an illustrated report retains the exact planning frames and receipt after 
   assert.equal((html.match(/id="F00"/g) || []).length, 1);
   assert.equal((html.match(/id="plan-F00"/g) || []).length, 1);
   assert.match(html, /fixture-brief-response/);
+});
+test("frame zero is only read after a decoded seek away and back to zero", async () => {
+  class Decoder extends EventTarget {
+    duration = 14; position = 0; seeks: number[] = [];
+    get currentTime() { return this.position; }
+    set currentTime(value: number) { this.position = value; this.seeks.push(value); queueMicrotask(() => this.dispatchEvent(new Event("seeked"))); }
+  }
+  const video = new Decoder();
+  await prepareFirstFrame(video as unknown as HTMLVideoElement, new AbortController().signal);
+  assert.equal(video.seeks.length, 2); assert.ok(video.seeks[0] > 0); assert.equal(video.currentTime, 0);
+  const controller = new AbortController(); controller.abort();
+  await assert.rejects(() => prepareFirstFrame(video as unknown as HTMLVideoElement, controller.signal), { name: "AbortError" });
+});
+test("scene planning keeps the operator's central tree instead of silently selecting the left tree", () => {
+  const central = { x: .43, y: .18, width: .25, height: .32 };
+  const payload = capturePayload(context, frames, "muse-spark-1.3", central);
+  const selection = JSON.parse((payload.messages[1].content[0] as { text: string }).text);
+  assert.deepEqual(selection.selectedTree, [430, 180, 680, 500]);
+  const leftPlan = { ...plan, treeBox: [125, 350, 310, 640] };
+  assert.throws(() => parseCapturePlan(leftPlan, frames, central), /META_TARGET_CHANGED/);
+  assert.deepEqual(parseCapturePlan({ ...plan, treeBox: [440, 190, 660, 480] }, frames, central).treeBox, { x: .44, y: .19, width: .22, height: .29 });
+});
+test("the requested brief schema includes the bounds enforced by validation", () => {
+  assert.equal(aiJsonSchema.properties.findings.maxItems, 6);
+  assert.equal(aiJsonSchema.properties.findings.items.properties.text.maxLength, 800);
+  assert.equal(aiJsonSchema.properties.questions.maxItems, 6);
+  const payload = metaPayload(result(), context, frames, "muse-spark-1.3");
+  assert.equal(payload.max_completion_tokens, 4096); assert.equal(payload.reasoning_effort, "minimal");
+  assert.doesNotMatch(JSON.stringify(payload), /M_tree_region|M_reference_region/);
+});
+test("report failures expose safe diagnostics for truncation, schema bounds, and mixed evidence", async () => {
+  const oldKey = process.env.MODEL_API_KEY, oldFetch = globalThis.fetch;
+  const key = "fixture-diagnostics-private-key";
+  const rawPrivate = "raw private model text must not be exposed";
+  process.env.MODEL_API_KEY = key;
+  const request = (name: string) => new Request("https://local.test/api/report", { method: "POST", body: JSON.stringify({ consent: true, context: { ...context, name }, analysis: { samples: samples(), width: 512, height: 320, treeBox: tree, referenceBox: ref }, frames }) });
+  try {
+    globalThis.fetch = (async () => Response.json({ choices: [{ finish_reason: "length", message: { content: rawPrivate } }], usage: { completion_tokens: 4096, completion_tokens_details: { reasoning_tokens: 4096 } } })) as typeof fetch;
+    const truncated = await POST(request("truncated-fixture"));
+    const diagnostics = await truncated.json() as { code: string; diagnostics: { reasoningTokens: number } };
+    assert.equal(truncated.status, 502); assert.equal(diagnostics.code, "META_TRUNCATED"); assert.equal(diagnostics.diagnostics.reasoningTokens, 4096);
+    assert.doesNotMatch(JSON.stringify(diagnostics), new RegExp(key + "|" + rawPrivate));
+    globalThis.fetch = (async () => upstream({ ...grounded, findings: Array.from({ length: 7 }, () => grounded.findings[0]) })) as typeof fetch;
+    const oversized = await POST(request("oversized-fixture"));
+    const failure = await oversized.json() as { code: string; diagnostics: { issues: { path: string; code: string }[] } };
+    assert.equal(oversized.status, 502); assert.equal(failure.code, "META_INVALID_RESPONSE");
+    assert.deepEqual(failure.diagnostics.issues, [{ path: "findings", code: "too_big" }]);
+    globalThis.fetch = (async () => upstream({ ...grounded, findings: [{ ...grounded.findings[0], refs: ["M_sway", "F00"] }] })) as typeof fetch;
+    const mixed = await POST(request("mixed-fixture")); assert.equal(mixed.status, 502);
+    assert.equal((await mixed.json() as { code: string }).code, "META_UNKNOWN_EVIDENCE");
+    globalThis.fetch = (async () => upstream(grounded)) as typeof fetch;
+    assert.equal((await POST(request("recovered-fixture"))).status, 200);
+  } finally { globalThis.fetch = oldFetch; if (oldKey) process.env.MODEL_API_KEY = oldKey; else delete process.env.MODEL_API_KEY; }
 });
 test("local process cap stops a new provider call before fetch", async () => {
   const previous = process.env.META_MAX_REQUESTS_PER_HOUR; process.env.META_MAX_REQUESTS_PER_HOUR = "1";
