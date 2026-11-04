@@ -77,3 +77,29 @@ Its planning F00 JPEG is entirely black, while measurement F00 is normal.
 
 Regression tests cover these changes with mocked provider responses. A live
 v4 brief still requires the user's local key; this is not claimed as verified.
+
+## Selected reference repair — prompt v5
+
+The user reported that manual scanning kept the reference on a building, but
+scene planning moved it onto a right-hand facade overlapped by a moving palm.
+The capture request previously included only the selected tree, leaving the
+reference unconstrained.
+
+- The browser now sends both selected regions. The capture API requires a
+  separate selected reference before making a provider call.
+- The model is instructed to keep suitable selections unchanged and refine
+  only inside the corresponding operator regions. A partly obscured building
+  is not sufficient: overlying vegetation must be excluded. An unsuitable
+  selection requires a recapture check and manual reselection.
+- Server validation rejects a substituted reference with
+  `META_REFERENCE_CHANGED`; the failed proposal is not applied or cached,
+  and no automatic paid retry occurs. Coordinate validation does not establish
+  that a patch is actually stationary. Human review remains required.
+- Unconfirmed overlays are labelled PROPOSED TREE / PROPOSED REFERENCE.
+  Inspecting preserves current measurements; accepting changed geometry still
+  requires a new scan.
+
+35 JavaScript tests pass, including an API regression that sends a left-side
+building selection, rejects the former right-side reference, then accepts and
+reuses an explicit retry inside the building. These are mocked provider
+responses, not a live v5 Meta verification.
