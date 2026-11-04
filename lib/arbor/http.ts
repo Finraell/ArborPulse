@@ -40,6 +40,7 @@ export function metaError(error: unknown) {
       META_UNKNOWN_EVIDENCE: "Meta returned an unknown reference or mixed evidence categories.",
       META_INVALID_REGION: "Meta proposed overlapping or invalid regions.",
       META_TARGET_CHANGED: "Meta proposed a different tree. Keep your selected regions or inspect again.",
+      META_REFERENCE_CHANGED: "Meta proposed a reference outside your selected region. Your manual regions are unchanged; keep them or inspect again.",
       META_UPSTREAM: "Meta rejected the request or could not complete it.",
     };
     console.warn("ArborPulse Meta response rejected", { code: message, diagnostics: error.diagnostics });

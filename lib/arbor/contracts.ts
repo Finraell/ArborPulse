@@ -8,7 +8,7 @@ export const frameSchema = z.object({ id: z.string().regex(/^F\d{2}$/), t: z.num
 export const framesSchema = z.array(frameSchema).max(6).refine(frames => new Set(frames.map(f => f.id)).size === frames.length, "Frame IDs must be unique");
 const sample = z.object({ t: z.number().min(0).max(60), treeX: z.number().min(-2000).max(2000), treeY: z.number().min(-2000).max(2000), cameraX: z.number().min(-2000).max(2000), cameraY: z.number().min(-2000).max(2000), x: z.number().min(-4000).max(4000), y: z.number().min(-4000).max(4000), quality: z.number().min(0).max(1) });
 export const analysisInputSchema = z.object({ samples: z.array(sample).min(72).max(750), width: z.number().int().min(160).max(1920), height: z.number().int().min(120).max(1920), treeBox: boxSchema, referenceBox: boxSchema });
-export const captureRequestSchema = z.object({ consent: z.literal(true), context: contextSchema, targetTreeBox: boxSchema, frames: framesSchema.refine(f => f.length >= 2, "Two or more frames are required") }).strict();
+export const captureRequestSchema = z.object({ consent: z.literal(true), context: contextSchema, targetTreeBox: boxSchema, targetReferenceBox: boxSchema, frames: framesSchema.refine(f => f.length >= 2, "Two or more frames are required") }).strict().refine(body => !boxesOverlap(body.targetTreeBox, body.targetReferenceBox), "Select separate tree and reference regions");
 export const reportRequestSchema = z.object({ consent: z.literal(true), context: contextSchema, analysis: analysisInputSchema, frames: framesSchema }).strict();
 
 export function remeasure(input: z.infer<typeof analysisInputSchema>) {
