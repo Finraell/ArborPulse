@@ -2,7 +2,7 @@ import { z } from "zod";
 import type { Analysis, AIBrief, AIReceipt, CapturePlan, EvidenceFrame, FieldContext } from "./types";
 import { boxesOverlap } from "./video";
 
-export const PROMPT_VERSION = "arborpulse-evidence-2026-11-02-v2";
+export const PROMPT_VERSION = "arborpulse-evidence-2026-11-04-v3";
 export const aiBriefSchema = z.object({ summary: z.string().min(1).max(2500), observations: z.array(z.string().max(800)).max(6), questions: z.array(z.string().max(800)).max(6), captureAdvice: z.array(z.string().max(800)).max(6) }).strict();
 const findingSchema = z.object({ text: z.string().min(1).max(800), source: z.enum(["frame", "measurement", "field_note"]), refs: z.array(z.string().min(1).max(40)).min(1).max(6) }).strict();
 export const groundedBriefSchema = z.object({ summary: z.string().min(1).max(2500), findings: z.array(findingSchema).max(6), questions: z.array(z.string().max(800)).max(6), captureAdvice: z.array(z.string().max(800)).max(6) }).strict();
@@ -16,7 +16,10 @@ export const META_INSTRUCTIONS = `You support an arborist with traceable visual 
 const CAPTURE_INSTRUCTIONS = `${META_INSTRUCTIONS} Your task is PRE-MEASUREMENT scene planning. Propose two separate boxes on a normalized 0–1000 grid as [x_min,y_min,x_max,y_max]. The tree box should contain a visible textured rigid branch junction or trunk, avoiding sky and excessive leaf-only motion. The reference box must be a separate plausibly world-stationary textured structure or ground region. A timestamp, watermark, logo, or overlay is NEVER a valid reference: it moves with the camera. Other tree crowns may move independently and are poor references. If no reliable reference exists, propose only the best available provisional region and add a recapture check explaining the limitation. The human must confirm both boxes before use. Use the sampled frames to identify framing, blur, parallax, and possible camera-motion concerns, while stating what the stills cannot establish. Cite frame IDs on every check. Do not diagnose structural defects or invent species.`;
 
 export function evidenceMeasurements(analysis: Analysis) {
+  const region = ({ x, y, width, height }: Analysis["treeBox"]) => [x, y, x + width, y + height].map(value => Math.round(value * 1000));
   return [
+    { id: "M_tree_region", label: "Confirmed target tree region [left, top, right, bottom], normalized 0–1000 from image top-left", value: region(analysis.treeBox) },
+    { id: "M_reference_region", label: "Confirmed stationary-reference region [left, top, right, bottom], normalized 0–1000 from image top-left", value: region(analysis.referenceBox) },
     { id: "M_frequency", label: "Dominant observed response (Hz)", value: analysis.frequency, resolutionHz: 1 / Math.max(1, analysis.duration) },
     { id: "M_sway", label: "Detrended projected peak-to-peak displacement (analysis pixels)", value: analysis.amplitude },
     { id: "M_tracking", label: "Mean retained feature fraction", value: analysis.coverage },
@@ -34,7 +37,7 @@ function frameContent(frames: EvidenceFrame[]) {
 export function metaPayload(analysis: Analysis, context: FieldContext, inputFrames: EvidenceFrame[] | string[], model: string) {
   const frames = normalizeFrames(inputFrames, analysis.duration);
   return { model, reasoning_effort: "low", max_completion_tokens: 2400,
-    messages: [{ role: "system", content: META_INSTRUCTIONS }, { role: "user", content: [{ type: "text", text: JSON.stringify({ evidence: evidenceMeasurements(analysis), analysisResolution: [analysis.width, analysis.height], fieldEvidence: { F_notes: context.notes, F_target: context.target, F_concern: context.concern }, synthetic: context.synthetic, frameTimes: frames.map(({ id, t }) => ({ id, t })), task: "Interpret this evidence. Every finding needs an exact source reference: M_* for measurements, Fxx for visible frames, F_notes/F_target/F_concern for recorder context. Ask actionable on-site questions. No failure or safety classification." }) }, ...frameContent(frames)] }],
+    messages: [{ role: "system", content: META_INSTRUCTIONS }, { role: "user", content: [{ type: "text", text: JSON.stringify({ evidence: evidenceMeasurements(analysis), analysisResolution: [analysis.width, analysis.height], fieldEvidence: { F_notes: context.notes, F_target: context.target, F_concern: context.concern }, synthetic: context.synthetic, frameTimes: frames.map(({ id, t }) => ({ id, t })), task: "Interpret this evidence about the confirmed target tree inside M_tree_region. These confirmed regions are the ones used for measurement; M_reference_region identifies the stationary-reference patch. Use their normalized 0–1000 coordinates to locate the target in every supplied frame. Do not substitute a larger or more central tree. Describe other trees only as surrounding context and identify them as such. Describe the target's base, trunk, or attachments as unknown when they cannot be resolved; do not transfer visible features from another tree. Every finding needs an exact source reference: M_* for measurements and confirmed regions, Fxx for visible frames, F_notes/F_target/F_concern for recorder context. A visual finding must cite its frame IDs; region coordinates alone do not establish a visible defect. Ask actionable on-site questions. No failure or safety classification." }) }, ...frameContent(frames)] }],
     response_format: { type: "json_schema", json_schema: { name: "ArborPulseGroundedBrief", strict: true, schema: aiJsonSchema } },
   };
 }
