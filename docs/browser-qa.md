@@ -24,3 +24,33 @@ are the browser's real output, not a hand-authored sample or a Meta response.
 The screenshot `screenshots/workspace-v2.jpg` shows the actual new workflow and
 labelled fixture. This is desktop browser QA, not a claim of device-lab coverage
 or real-world tree-assessment accuracy.
+
+## Follow-up — 2026-11-04
+
+A user-run Windows session produced real Muse Spark scene-planning and grounded
+brief receipts. Its exported measurements were independently recomputed and
+matched the JSON; low retention and a long tracking dropout correctly required
+recapture. This verifies that earlier keyed build, not a new paid call by CI.
+
+The follow-up fixes two evidence mismatches observed in that session:
+
+- The grounded-brief request now includes the confirmed tree and reference
+  regions as `M_tree_region` and `M_reference_region`, on the same normalized
+  0–1000 grid used for scene planning. Instructions identify the confirmed tree
+  as the target rather than substituting another tree in the scene.
+- A capture plan, its receipt, and its exact input frames are retained together.
+  Scanning no longer replaces planning images. The workflow displays a separate
+  Scene planning frames collection. Full JSON adds `capturePlanFrames`; HTML
+  exports retain both collections and both API receipts. Dismissing or changing
+  regions clears the associated plan evidence.
+
+Regression checks exercise the report API after changing the original central
+tree to a left-hand target, and HTML export with different images sharing the
+same F00 ID in planning and measurement. Both API reference types and distinct
+HTML frame identifiers are checked. All 29 JavaScript tests and TypeScript
+checks pass. These use labelled fixtures, not live provider responses.
+
+The updated managed-browser build renders successfully; the synthetic pine
+again gives 0.78 Hz and 100% retention. HTML generation passes automated checks,
+but a download event is still not observed in this cloud HTTP preview. Actual
+HTML downloading and the revised Meta prompt require a local keyed rerun.
