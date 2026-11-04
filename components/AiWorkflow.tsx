@@ -22,7 +22,7 @@ export function AiWorkflow(props: {
   return <section className="ai-workflow no-print" aria-label="Meta guided inspection workflow">
     <div className="workflow-top"><span><Sparkles size={17}/> META GUIDED INSPECTION</span><span className={`connection-badge ${props.ready ? "configured" : ""}`}>{props.ready ? "Server key configured" : "Local evidence mode"}</span></div>
     <div className="workflow-steps">
-      <div className={plan ? "complete" : "current"}><span>01</span><strong>Understand the scene</strong><p>Muse Spark checks your selected tree and proposes trackable regions.</p></div>
+      <div className={plan ? "complete" : "current"}><span>01</span><strong>Understand the scene</strong><p>Muse Spark checks both selected regions and refines tracking patches within them.</p></div>
       <div className={props.hasAnalysis ? "complete" : props.applied ? "current" : ""}><span>02</span><strong>Confirm & measure</strong><p>You confirm the regions. PhysicsLens measures the motion.</p></div>
       <div className={props.hasAnalysis ? "current" : ""}><span>03</span><strong>Ground the brief</strong><p>Model observations link to frames and measured evidence.</p></div>
     </div>
