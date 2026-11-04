@@ -94,7 +94,7 @@ export default function Workspace() {
     const controller = new AbortController(); aiAborter.current = controller;
     try {
       const captured = await sampleClip(selected.source, controller.signal);
-      const response = await fetch("/api/capture", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ consent, context, frames: captured }), signal: controller.signal });
+      const response = await fetch("/api/capture", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ consent, context, targetTreeBox: treeBox, frames: captured }), signal: controller.signal });
       const result = await response.json() as { plan: CapturePlan; receipt: AIReceipt; cached: boolean; error?: string };
       if (!response.ok) throw new Error(result.error || "Scene planning failed.");
       setCaptureEvidence({ plan: result.plan, receipt: result.receipt, frames: captured }); setPlanReused(result.cached); setPlanApplied(false); accountReceipt(result.receipt, result.cached);
