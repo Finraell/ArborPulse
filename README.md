@@ -1,11 +1,12 @@
 # ArborPulse
 
-[Open workspace](https://arborpulse-dima.finraell.chatgpt.site) · [Repository](https://github.com/Finraell/ArborPulse) · [Local setup](docs/deployment.md)
+[Demo video (2:59)](https://youtu.be/_rO7AkyZbiE) · [Repository](https://github.com/Finraell/ArborPulse) · [Local setup](docs/deployment.md)
 
 **Every tree has a rhythm. Turn video into traceable inspection evidence.**
 
 Meta Global AI Developer Hackathon 2026 · Indie developer · Push the Frontier.
-The repository and hosted workspace are currently private.
+The source repository is public. The hosted workspace remains owner-private and
+unkeyed; the complete app runs locally using the setup below.
 
 ArborPulse combines local motion measurement with **Muse Spark 1.3** at two useful
 points: planning what to measure, and interpreting the evidence afterward. It
@@ -91,10 +92,14 @@ are no automatic paid retries. The default cap is 20 requests/hour **per process
 not a durable public-service quota. Receipts show estimated standard-mode cost;
 the provider dashboard remains authoritative for billing and credit balance.
 
-**Live Meta verification is pending a user-configured key.** Automated provider
-contract tests use labelled fixtures; they are not presented as real model
-responses. Health status distinguishes a configured key from a verified response.
-SAM segmentation and voice are not implemented or claimed.
+**Local operator testing has verified live Meta Model API responses.** Scene
+planning and grounded briefs were exercised with licensed Urban footage and the
+labelled synthetic Meadow pine control. Response receipts retain the model,
+request ID, token usage and prompt version. Automated provider contract tests use
+labelled fixtures; they are not presented as live model responses. Health status
+distinguishes a configured key from a verified response. API credentials remain
+local and are not included in the repository. SAM segmentation and voice are not
+implemented or claimed.
 
 ## Real footage and reproducible verification
 
@@ -151,8 +156,8 @@ issued by another inference provider requires that provider's integration.
 For a judging URL, deploy this app with `MODEL_API_KEY` stored as a **server-side
 hosting secret**. It does not go in the repository or GitHub Actions. The current
 hosted workspace remains owner-private and unkeyed. Before public multi-user
-access, add durable authentication and per-user spending limits. Sharing the
-private repository and opening the site to judges are deliberate separate steps.
+access, add durable authentication and per-user spending limits. Publishing the
+source repository and opening the hosted app to judges are separate steps.
 
 ## Architecture and boundaries
 
