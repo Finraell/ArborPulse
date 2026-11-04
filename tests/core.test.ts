@@ -98,9 +98,11 @@ test("capture route validates consent, duplicate frame IDs, and returns confirme
   const request = (data: unknown) => new Request("https://local.test/api/capture", { method: "POST", body: JSON.stringify(data) });
   try {
     assert.equal((await capturePOST(request({ consent: false, context, frames }))).status, 400);
-    assert.equal((await capturePOST(request({ consent: true, context, targetTreeBox: tree, frames: [frames[0], frames[0]] }))).status, 400);
+    assert.equal((await capturePOST(request({ consent: true, context, targetTreeBox: tree, targetReferenceBox: ref, frames: [frames[0], frames[0]] }))).status, 400);
+    assert.equal((await capturePOST(request({ consent: true, context, targetTreeBox: tree, frames }))).status, 400);
+    assert.equal((await capturePOST(request({ consent: true, context, targetTreeBox: tree, targetReferenceBox: tree, frames }))).status, 400);
     globalThis.fetch = (async () => upstream(plan)) as typeof fetch;
-    const response = await capturePOST(request({ consent: true, context, targetTreeBox: tree, frames }));
+    const response = await capturePOST(request({ consent: true, context, targetTreeBox: tree, targetReferenceBox: ref, frames }));
     assert.equal(response.status, 200); assert.equal(response.headers.get("cache-control"), "no-store");
     const payload = await response.json() as { plan: { referenceBox: { x: number } } };
     assert.equal(payload.plan.referenceBox.x, .8);
@@ -133,7 +135,7 @@ test("a brief follows the confirmed left tree rather than the recording's origin
     assert.equal(response.status, 200); assert.equal(sent, true);
     const value = await response.json() as { brief: { findings: { refs: string[] }[] }; receipt: { promptVersion: string } };
     assert.ok(value.brief.findings[0].refs.includes("M_tracking"));
-    assert.equal(value.receipt.promptVersion, "arborpulse-evidence-2026-11-04-v4");
+    assert.equal(value.receipt.promptVersion, "arborpulse-evidence-2026-11-04-v5");
   } finally { globalThis.fetch = priorFetch; if (key) process.env.MODEL_API_KEY = key; else delete process.env.MODEL_API_KEY; }
 });
 test("an illustrated report retains the exact planning frames and receipt after a different scan", () => {
@@ -172,6 +174,52 @@ test("scene planning keeps the operator's central tree instead of silently selec
   const leftPlan = { ...plan, treeBox: [125, 350, 310, 640] };
   assert.throws(() => parseCapturePlan(leftPlan, frames, central), /META_TARGET_CHANGED/);
   assert.deepEqual(parseCapturePlan({ ...plan, treeBox: [440, 190, 660, 480] }, frames, central).treeBox, { x: .44, y: .19, width: .22, height: .29 });
+});
+test("scene planning retains the selected building instead of replacing it with the right-hand palm", () => {
+  const building = { x: .04, y: .13, width: .17, height: .21 };
+  const payload = capturePayload(context, frames, "muse-spark-1.3", tree, building);
+  const selection = JSON.parse((payload.messages[1].content[0] as { text: string }).text);
+  assert.deepEqual(selection.selectedReference, [40, 130, 210, 340]);
+  assert.match(selection.task, /Keep suitable selections unchanged/);
+  assert.match(selection.task, /exclude overlying leaves, palms/);
+  assert.throws(() => parseCapturePlan(plan, frames, tree, building), /META_REFERENCE_CHANGED/);
+  const inside = parseCapturePlan({ ...plan, referenceBox: [50, 140, 200, 320] }, frames, tree, building);
+  assert.deepEqual(inside.referenceBox, { x: .05, y: .14, width: .15, height: .18 });
+  const rounded = { x: .0404, y: .1304, width: .1692, height: .2092 };
+  assert.doesNotThrow(() => parseCapturePlan({ ...plan, referenceBox: [40, 130, 210, 340] }, frames, tree, rounded));
+});
+test("capture API sends both selections and rejects a substituted reference without caching or retrying it", async () => {
+  const priorKey = process.env.MODEL_API_KEY, priorFetch = globalThis.fetch;
+  process.env.MODEL_API_KEY = "fixture-reference-boundary-key";
+  const building = { x: .04, y: .13, width: .17, height: .21 };
+  const accepted = { ...plan, referenceBox: [50, 140, 200, 320], referenceReason: "Windows inside the selected left building" };
+  const request = () => new Request("https://local.test/api/capture", { method: "POST", body: JSON.stringify({ consent: true, context, targetTreeBox: tree, targetReferenceBox: building, frames }) });
+  let calls = 0;
+  try {
+    globalThis.fetch = (async (_url, init) => {
+      calls++;
+      const payload = JSON.parse(String(init?.body));
+      const selections = JSON.parse(payload.messages[1].content[0].text);
+      assert.deepEqual(selections.selectedTree, [300, 200, 600, 500]);
+      assert.deepEqual(selections.selectedReference, [40, 130, 210, 340]);
+      return upstream(calls === 1 ? plan : accepted);
+    }) as typeof fetch;
+    const rejected = await capturePOST(request());
+    assert.equal(rejected.status, 502);
+    const failure = await rejected.json() as { code: string; error: string };
+    assert.equal(failure.code, "META_REFERENCE_CHANGED");
+    assert.match(failure.error, /manual regions are unchanged/);
+    assert.equal(calls, 1);
+    const recovered = await capturePOST(request());
+    assert.equal(recovered.status, 200);
+    assert.equal(calls, 2);
+    const value = await recovered.json() as { plan: { referenceBox: { x: number } }; receipt: { promptVersion: string } };
+    assert.equal(value.plan.referenceBox.x, .05);
+    assert.equal(value.receipt.promptVersion, "arborpulse-evidence-2026-11-04-v5");
+    const reused = await capturePOST(request());
+    assert.equal((await reused.json() as { cached: boolean }).cached, true);
+    assert.equal(calls, 2);
+  } finally { globalThis.fetch = priorFetch; if (priorKey) process.env.MODEL_API_KEY = priorKey; else delete process.env.MODEL_API_KEY; }
 });
 test("the requested brief schema includes the bounds enforced by validation", () => {
   assert.equal(aiJsonSchema.properties.findings.maxItems, 6);
