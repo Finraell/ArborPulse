@@ -87,15 +87,22 @@ function eventOnce(video: HTMLVideoElement, event: string, signal: AbortSignal, 
   });
 }
 
+/** Force a decoded seek before reading frame zero; loadeddata can precede canvas readiness. */
+export async function prepareFirstFrame(video: HTMLVideoElement, signal: AbortSignal) {
+  await eventOnce(video, "seeked", signal, () => { video.currentTime = Math.min(1 / 12, video.duration / 2); });
+  await eventOnce(video, "seeked", signal, () => { video.currentTime = 0; });
+}
+
 /** Samples the clip locally. No video or image leaves the browser in this function. */
 export async function sampleClip(source: string, signal: AbortSignal): Promise<EvidenceFrame[]> {
-  const video = document.createElement("video"); video.muted = true; video.playsInline = true;
+  const video = document.createElement("video"); video.muted = true; video.playsInline = true; video.preload = "auto";
   try {
     await eventOnce(video, "loadeddata", signal, () => { video.src = source; video.load(); });
     if (!Number.isFinite(video.duration) || video.duration < 6) throw new Error("Record at least 6 seconds; 20–60 seconds is recommended.");
     const width = Math.min(640, video.videoWidth), height = Math.round(video.videoHeight * width / video.videoWidth);
     const canvas = document.createElement("canvas"); canvas.width = width; canvas.height = height;
-    const ctx = canvas.getContext("2d"); if (!ctx) throw new Error("Canvas is unavailable.");
+    const ctx = canvas.getContext("2d", { willReadFrequently: true }); if (!ctx) throw new Error("Canvas is unavailable.");
+    await prepareFirstFrame(video, signal);
     const frameCount = Math.floor(Math.min(video.duration - 1 / 12, 60) * 12) + 1;
     const frames: EvidenceFrame[] = [];
     for (let i = 0; i < 6; i++) {
@@ -120,6 +127,7 @@ export async function scanVideo(source: string, treeBox: Box, referenceBox: Box,
     const canvas = document.createElement("canvas"); canvas.width = width; canvas.height = height;
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) throw new Error("Canvas is unavailable in this browser.");
+    await prepareFirstFrame(video, signal);
     const fps = 12, duration = Math.min(video.duration - 1 / fps, 60), count = Math.floor(duration * fps) + 1;
     const captureIndices = Array.from({ length: 6 }, (_, i) => Math.floor(i * (count - 1) / 5));
     const samples: MotionSample[] = [], frames: EvidenceFrame[] = [];

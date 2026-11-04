@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { MetaResponseError } from "./meta";
 
 const headers = { "Cache-Control": "no-store" };
 export function json(value: unknown, status = 200) { return Response.json(value, { status, headers }); }
@@ -31,5 +32,18 @@ export function metaError(error: unknown) {
   if (message === "META_RATE_LIMIT") return json({ error: "Meta is busy. Try again shortly; no automatic retry was made." }, 429);
   if (message === "META_AUTH") return json({ error: "Meta access was rejected. Check the local key and model access in your Meta project." }, 502);
   if (message === "META_BILLING") return json({ error: "Meta requires billing or eligible API credits for this project. Check the project that owns your key." }, 502);
+  if (error instanceof MetaResponseError) {
+    const descriptions: Record<string, string> = {
+      META_TRUNCATED: "Meta reached the response token limit before completing the brief.",
+      META_INVALID_JSON: "Meta returned incomplete or invalid JSON.",
+      META_INVALID_RESPONSE: "Meta's response did not match the requested report structure.",
+      META_UNKNOWN_EVIDENCE: "Meta returned an unknown reference or mixed evidence categories.",
+      META_INVALID_REGION: "Meta proposed overlapping or invalid regions.",
+      META_TARGET_CHANGED: "Meta proposed a different tree. Keep your selected regions or inspect again.",
+      META_UPSTREAM: "Meta rejected the request or could not complete it.",
+    };
+    console.warn("ArborPulse Meta response rejected", { code: message, diagnostics: error.diagnostics });
+    return json({ error: `${descriptions[message] || "The Meta response could not be verified."} [${message}] Your measured evidence remains available.`, code: message, diagnostics: error.diagnostics }, 502);
+  }
   return json({ error: "The Meta response could not be verified. Your measured evidence remains available; retry only when ready." }, 502);
 }
