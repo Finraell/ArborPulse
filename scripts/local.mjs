@@ -2,6 +2,7 @@ import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { parseEnv } from "node:util";
 import { fileURLToPath } from "node:url";
 import { spawn, spawnSync } from "node:child_process";
+import { checkMetaAccess } from "./meta-check.mjs";
 const root = fileURLToPath(new URL("../", import.meta.url));
 process.chdir(root);
 const command = process.argv[2] || "doctor";
@@ -42,9 +43,10 @@ if (command === "setup") {
 } else if (command === "check") {
   const values = config(), key = values.MODEL_API_KEY, model = values.META_MODEL || "muse-spark-1.3";
   if (!key) { console.error("No local Meta key configured. Set it in .dev.vars; never paste it into GitHub."); process.exit(1); }
-  const response = await fetch("https://api.meta.ai/v1/chat/completions", { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` }, body: JSON.stringify({ model, reasoning_effort: "low", max_completion_tokens: 80, messages: [{ role: "user", content: "Reply with only ARBORPULSE_OK" }] }), signal: AbortSignal.timeout(45000) });
-  if (!response.ok) { console.error(`Meta check failed (HTTP ${response.status}). Check key, model access, and eligible API credits in the provider dashboard.`); process.exit(1); }
-  const result = await response.json();
-  if (!result.choices?.[0]?.message?.content?.includes("ARBORPULSE_OK")) { console.error("Meta returned an unexpected response. The key was not printed."); process.exit(1); }
-  console.log(JSON.stringify({ status: "verified", provider: "Meta Model API", model: result.model || model, requestId: result.id || null, usage: result.usage || null }, null, 2));
+  const result = await checkMetaAccess(key, model);
+  if (!result.ok) {
+    console.error(result.message);
+    console.error(JSON.stringify(result.diagnostics, null, 2));
+    process.exitCode = 1;
+  } else console.log(JSON.stringify({ ...result.receipt, diagnostics: result.diagnostics }, null, 2));
 } else throw new Error("Use setup, doctor, start, or check.");
